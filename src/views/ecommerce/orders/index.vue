@@ -1,6 +1,7 @@
 <template>
   <DefaultLayout>
     <PageBreadcrumb title="Orders List" subtitle="Ecommerce" />
+    {{ productList }}
     <b-row>
       <b-col>
         <b-card no-body>
@@ -22,6 +23,9 @@
               </div>
             </div>
           </b-card-body>
+          <download-excel name="qazaqart" :data="productList" style="cursor: pointer;">
+            Скачать excel
+          </download-excel>
           <b-table-simple responsive class="text-nowrap table-centered mb-0">
             <b-thead class="bg-light bg-opacity-50">
               <b-tr>
@@ -53,9 +57,6 @@
                   <b-button @click="deleteProductData(order.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
                     <i class="bx bx-trash fs-18"></i>
                   </b-button>
-                  <download-excel :data="productList" style="cursor: pointer;">
-                    Скачать excel
-                  </download-excel>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -99,6 +100,7 @@ async function getProductList () {
   console.dir(axios)
   await axios.get('https://dbqazaqart.kz/api/product/get/')
     .then((response: { data: any }) => {
+      response.data = response.data.map((elem: any) => elem.desc = JSON.parse(elem.desc))
       productList.value = response.data
     })
     .catch((error: { data: any }) => {
