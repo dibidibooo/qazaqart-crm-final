@@ -100,7 +100,7 @@ async function getProductList () {
   console.dir(axios)
   await axios.get('https://dbqazaqart.kz/api/product/get/')
     .then((response: { data: any }) => {
-      response.data = response.data.map((elem: any) => elem.desc = JSON.parse(elem.desc))
+      // response.data = response.data.map((elem: any) => elem.desc = JSON.parse(elem.desc))
       productList.value = response.data
     })
     .catch((error: { data: any }) => {
