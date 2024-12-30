@@ -11,7 +11,7 @@ import product12 from '@/assets/images/products/product-1(2).png'
 import product13 from '@/assets/images/products/product-1(3).png'
 
 export const orderList: OrderType = {
-  header: ['№ Заказа', 'Дата заявки', 'Продукт', 'Имя Фамилия', 'Email', 'Телефон.', 'Адрес', 'Статус'],
+  header: ['№ Заказа', 'Дата заявки', 'Продукт', 'Категория', 'Размер', 'Цвет', 'Количество', 'Цена', 'Имя Фамилия', 'Email', 'Телефон.', 'Адрес', 'Действия'],
   body: [
     {
       orderID: 'RB5625',

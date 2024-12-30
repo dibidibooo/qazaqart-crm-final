@@ -29,23 +29,33 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="(order, idx) in orderList.body" :key="idx">
+              <b-tr v-for="(order, idx) in productList" :key="idx">
                 <b-td>
-                  <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.orderID } }">#{{ order.orderID }} </router-link>
+                  12345
+                  <!-- <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.orderID } }">#{{ order.orderID }} </router-link> -->
                 </b-td>
-                <b-td>{{ order.date }}</b-td>
+                <b-td>{{ order.data }}</b-td>
                 <b-td>
-                  <img :src="order.image" alt="product-1(1)" class="img-fluid avatar-sm" />
+                  <img :src="order.art.photo_low_quality" alt="product-1(1)" class="img-fluid avatar-sm" />
                 </b-td>
+                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.price }} KZT</b-td>
                 <b-td>
-                  <a href="#!">{{ order.name }}</a>
+                  <a href="#!">{{ order.buyer.user.first_name }} {{ order.buyer.user.last_name }}</a>
                 </b-td>
-                <b-td>{{ order.email }}</b-td>
-                <b-td>{{ order.phone }}</b-td>
-                <b-td>{{ order.address }}</b-td>
+                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.buyer.phone }}</b-td>
+                <b-td>Almaty</b-td>
                 <b-td>
-                  <i class="bx bxs-circle" :class="order.status === 'Завершено' ? 'text-success' : order.status === 'В процессе' ? 'text-primary' : 'text-danger'"></i>
-                  {{ kebabToTitleCase(order.status) }}
+                  <b-button @click="deleteProductData(order.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
+                    <i class="bx bx-trash fs-18"></i>
+                  </b-button>
+                  <download-excel :data="productList" style="cursor: pointer;">
+                    Скачать excel
+                  </download-excel>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -71,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject, onMounted } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import { kebabToTitleCase } from '@/helpers/change-casing'
@@ -79,4 +89,34 @@ import { orderList } from '@/views/ecommerce/orders/components/data'
 
 const perPageItem = ref(5)
 const currentPage = ref(1)
+
+const productList = ref<any[]>([])
+const authorList = ref<any[]>([])
+
+const axios: any = inject('axios')
+
+async function getProductList () {
+  console.dir(axios)
+  await axios.get('https://dbqazaqart.kz/api/product/get/')
+    .then((response: { data: any }) => {
+      productList.value = response.data
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+async function deleteProductData (id: Number) {
+  await axios.delete(`https://dbqazaqart.kz/api/product/delete/${id}/`)
+    .then(() => {
+      getProductList()
+    })
+    .catch((error: { data: any }) => {
+      console.log(error)
+    })
+}
+
+onMounted(() => {
+  getProductList()
+})
 </script>

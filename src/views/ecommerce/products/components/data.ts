@@ -20,7 +20,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'S',
-      color: 'Белый', 
+      color: 'Белый',
       category: 'Футболки',
       price: '15.000',
       inventory: 'В наличии'
@@ -33,7 +33,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'L',
-      color: 'Черный', 
+      color: 'Черный',
       category: 'Футболки',
       price: '15.000',
       inventory: 'В наличии'
@@ -46,7 +46,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'M',
-      color: 'Серый', 
+      color: 'Серый',
       category: 'Худи',
       price: '20.000',
       inventory: 'В наличии'
@@ -59,7 +59,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'L',
-      color: 'Белый', 
+      color: 'Белый',
       category: 'Свитшоты',
       price: '18.000',
       inventory: 'Не в наличии'
@@ -72,7 +72,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'XL',
-      color: 'Серый', 
+      color: 'Серый',
       category: 'Свитшоты',
       price: '18.000',
       inventory: 'В наличии'
@@ -85,7 +85,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'XXL',
-      color: 'Черный', 
+      color: 'Черный',
       category: 'Худи',
       price: '20.000',
       inventory: 'Не в наличии'
@@ -98,7 +98,7 @@ export const products: productType = {
         caption: 'Хлопок 100%'
       },
       size: 'L',
-      color: 'Черный', 
+      color: 'Черный',
       category: 'Футболки',
       price: '15.000',
       inventory: 'В наличии'

@@ -138,8 +138,7 @@ const ecommerceRoutes = [
         path: '/products',
         name: 'ecommerce.products',
         meta: {
-          title: setTitle('Products List'),
-          authRequired: true
+          title: setTitle('Products List')
         },
         component: () => import('@/views/ecommerce/products/index.vue')
       },
@@ -184,8 +183,7 @@ const ecommerceRoutes = [
         path: '/orders',
         name: 'ecommerce.orders',
         meta: {
-          title: setTitle('Orders List'),
-          authRequired: true
+          title: setTitle('Orders List')
         },
         component: () => import('@/views/ecommerce/orders/index.vue')
       },

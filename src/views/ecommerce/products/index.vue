@@ -12,6 +12,12 @@
               </div>
             </div>
           </b-card-body>
+          <download-excel
+            :data="json_data"
+            type="xls"
+            style="cursor: pointer;">
+            Скачать excel
+          </download-excel>
           <div>
             <b-table-simple responsive class="table-centered text-nowrap mb-0">
               <b-thead class="bg-light bg-opacity-50">
@@ -21,30 +27,31 @@
               </b-thead>
 
               <b-tbody>
-                <b-tr v-for="(product, idx) in products.body" :key="idx">
+                <b-tr v-for="(product, idx) in shopList" :key="idx">
                   <b-td>
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0 me-3">
                         <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }">
-                          <img :src="product.product.image" alt="product-1(1)" class="img-fluid avatar-sm" />
+                          <img :src="product.item.picture" alt="product-1(1)" class="img-fluid avatar-sm" />
                         </router-link>
                       </div>
                       <div class="flex-grow-1">
                         <h5 class="mt-0 mb-1">
                           <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }" class="text-reset">
-                            {{ product.product.name }}
+                            {{ product.item.name }}
                           </router-link>
                         </h5>
-                        <span class="fs-13">{{ product.product.caption }}</span>
+                        <span class="fs-13">{{ product.item.desc }}</span>
                       </div>
                     </div>
                   </b-td>
-                  <b-td>{{ product.size }}</b-td>
-                  <b-td>{{ product.category }}</b-td>
-                  <b-td>{{ product.price }} KZT</b-td>
-                  <b-td :class="product.inventory === 'В наличии' ? 'text-success' : 'text-danger'">
-                    <i class="bx bxs-circle me-1" :class="product.inventory === 'В наличии' ? 'text-success' : 'text-danger'"></i>
-                    {{ kebabToTitleCase(product.inventory) }}
+                  <b-td>{{ sizeSign(product.item.size) }}</b-td>
+                  <b-td>{{ product.item.color }}</b-td>
+                  <b-td>{{ categorySet(product.item.category) }}</b-td>
+                  <b-td>{{ product.item.price }} KZT</b-td>
+                  <b-td :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'">
+                    <i class="bx bxs-circle me-1" :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'"></i>
+                    {{ kebabToTitleCase('В наличии') }}
                   </b-td>
                   <b-td>
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
@@ -80,13 +87,72 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject, onMounted, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import { kebabToTitleCase } from '@/helpers/change-casing'
-import { currency } from '@/helpers/constants'
+// import { currency } from '@/helpers/constants'
 import { products } from '@/views/ecommerce/products/components/data'
 
 const perPageItem = ref(5)
 const currentPage = ref(1)
+
+const shopList = ref<any[]>([])
+
+const json_data = computed(() => {
+  const arr: any[] = []
+  shopList.value.forEach(elem => {
+    arr.push({
+      picture: elem.item.picture,
+      name: elem.item.name,
+      description: elem.item.desc,
+      size: sizeSign(elem.item.size),
+      color: elem.item.color,
+      category: categorySet(elem.item.category),
+      price: elem.item.price,
+      date: elem.date
+    })
+  })
+  return arr
+})
+
+const axios: any = inject('axios')
+
+async function getShopItem () {
+  await axios.get(`https://dbqazaqart.kz/api/shop/get/`)
+    .then((response: { data: any }) => {
+      shopList.value = response.data
+    })
+    .catch((error: { data: any }) => {
+      console.log(error)
+    })
+}
+
+function sizeSign(choice: String): String {
+  if (choice === '0') {
+    return 'S'
+  } else if (choice === '1') {
+    return 'M'
+  } else if (choice === '2') {
+    return 'L'
+  } else if (choice === '3') {
+    return 'XL'
+  } else {
+    return 'XXL'
+  }
+}
+
+function categorySet(choice: String): String {
+  if (choice === '0') {
+    return 'Худи'
+  } else if (choice === '1') {
+    return 'Свитшот'
+  } else {
+    return 'Футболка'
+  }
+}
+
+onMounted(() => {
+  getShopItem()
+})
 </script>
