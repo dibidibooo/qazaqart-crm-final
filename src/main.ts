@@ -4,6 +4,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import { createBootstrap } from 'bootstrap-vue-next'
 import VueApexCharts from 'vue3-apexcharts'
 
@@ -34,11 +37,19 @@ import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import '@/assets/scss/app.scss'
 import '@/assets/scss/icons.scss'
 
+import JsonExcel from "vue-json-excel3"
+
+// axios.defaults.baseURL = 'https://dbqazaqart.kz/'
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/'
+
 const app = createApp(App)
 
+app.component("downloadExcel", JsonExcel)
 app.use(createPinia())
 app.use(router)
 app.use(createBootstrap({ components: true, directives: true }))
 app.use(VueApexCharts)
+app.use(VueAxios, axios)
+app.provide('axios', app.config.globalProperties.axios)
 
 app.mount('#app')

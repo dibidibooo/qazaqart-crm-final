@@ -1,7 +1,6 @@
 <template>
   <DefaultLayout>
     <PageBreadcrumb title="Analytics" subtitle="Dashboards" />
-
     <b-row>
       <b-col xxl="3">
         <b-row>
