@@ -1,7 +1,6 @@
 <template>
   <DefaultLayout>
     <PageBreadcrumb title="Orders List" subtitle="Ecommerce" />
-    {{ productList }}
     <b-row>
       <b-col>
         <b-card no-body>
@@ -35,24 +34,30 @@
             <b-tbody>
               <b-tr v-for="(order, idx) in productList" :key="idx">
                 <b-td>
-                  12345
+                  {{ order.desc.order }}
                   <!-- <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.orderID } }">#{{ order.orderID }} </router-link> -->
                 </b-td>
                 <b-td>{{ order.data }}</b-td>
                 <b-td>
                   <img :src="order.art.photo_low_quality" alt="product-1(1)" class="img-fluid avatar-sm" />
                 </b-td>
-                <b-td>{{ order.buyer.user.email }}</b-td>
-                <b-td>{{ order.buyer.user.email }}</b-td>
-                <b-td>{{ order.buyer.user.email }}</b-td>
-                <b-td>{{ order.buyer.user.email }}</b-td>
+                <b-td>{{ order.desc.category }}</b-td>
+                <b-td>
+                  <ul style="list-style-type: none;">
+                    <li v-for="(item, index) in order.desc.size" :key="item + index">
+                      <p>{{ item.merchSize }}: {{ item.merchAmount }}</p>
+                    </li>
+                  </ul>
+                </b-td>
+                <b-td>{{ order.desc.color }}</b-td>
+                <b-td>{{ order.desc.count }}</b-td>
                 <b-td>{{ order.price }} KZT</b-td>
                 <b-td>
                   <a href="#!">{{ order.buyer.user.first_name }} {{ order.buyer.user.last_name }}</a>
                 </b-td>
                 <b-td>{{ order.buyer.user.email }}</b-td>
                 <b-td>{{ order.buyer.phone }}</b-td>
-                <b-td>Almaty</b-td>
+                <b-td>{{ order.desc.address }}</b-td>
                 <b-td>
                   <b-button @click="deleteProductData(order.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
                     <i class="bx bx-trash fs-18"></i>
@@ -100,7 +105,10 @@ async function getProductList () {
   console.dir(axios)
   await axios.get('https://dbqazaqart.kz/api/product/get/')
     .then((response: { data: any }) => {
-      // response.data = response.data.map((elem: any) => elem.desc = JSON.parse(elem.desc))
+      response.data.forEach((elem: any) => {
+        elem.desc = JSON.parse(elem.desc)
+        elem.desc.size = JSON.parse(elem.desc.size)
+      })
       productList.value = response.data
     })
     .catch((error: { data: any }) => {
