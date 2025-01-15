@@ -8,7 +8,7 @@
         </h4>
         <a href="javascript:void(0);" class="mb-1 d-inline-block">
           <i class="bx bx-location-plus text-danger fs-14 me-1" />
-          {{ customer.location }}
+          <!-- {{ customer.location }} -->
         </a>
         <br />
         <a href="javascript:void(0);">
