@@ -184,8 +184,7 @@ const ecommerceRoutes = [
         path: '/orders',
         name: 'ecommerce.orders',
         meta: {
-          title: setTitle('Orders List'),
-          authRequired: true
+          title: setTitle('Orders List')
         },
         component: () => import('@/views/ecommerce/orders/index.vue')
       },
