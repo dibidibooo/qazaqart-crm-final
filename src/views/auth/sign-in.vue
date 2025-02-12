@@ -23,9 +23,9 @@
                     <b-form @submit.prevent="handleSignIn" class="authentication-form">
                       <div v-if="error.length > 0" class="mb-2 text-danger">{{ error }}</div>
 
-                      <b-form-group label="Email" class="mb-3">
-                        <b-form-input type="email" id="example-email" name="email" v-model="v.email.$model" placeholder="Введите email" />
-                        <div v-if="v.email.$error" class="text-danger">
+                      <b-form-group label="Username" class="mb-3">
+                        <b-form-input type="text" id="example-email" name="username" v-model="v.username.$model" placeholder="Введите username" />
+                        <div v-if="v.username.$error" class="text-danger">
                           <span v-for="(err, idx) in v.email.$errors" :key="idx">
                             {{ err.$message }}
                           </span>
@@ -75,7 +75,7 @@ import LogoBox from '@/components/LogoBox.vue'
 import signInImg from '@/assets/images/sign-in.svg'
 import SignWithOptions from '@/views/auth/components/SignWithOptions.vue'
 
-import { required, email } from '@vuelidate/validators'
+import { required } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 
 import { ref, reactive, computed } from 'vue'
@@ -89,12 +89,12 @@ import type { User } from '@/types/auth'
 import router from '@/router'
 
 const credentials = reactive({
-  email: 'user@email.com',
+  username: 'user',
   password: 'password'
 })
 
 const vuelidateRules = computed(() => ({
-  email: { required, email },
+  username: { required },
   password: { required }
 }))
 
@@ -112,12 +112,12 @@ const handleSignIn = async () => {
 
   if (result) {
     try {
-      const res: AxiosResponse<User> = await HttpClient.post('/sign-in', credentials)
+      const res: AxiosResponse<User> = await HttpClient.post('https://dbqazaqart.kz/api-auth/token/', credentials)
 
-      if (res.data.token) {
+      if (res.data.access) {
         useAuth.saveSession({
           ...res.data,
-          token: res.data.token
+          token: res.data.access
         })
         redirectUser()
       }
@@ -130,6 +130,7 @@ const handleSignIn = async () => {
 }
 
 const redirectUser = () => {
+  console.log('redirect')
   if (query.redirectedFrom) {
     return router.push(`${query.redirectedFrom}`)
   }
