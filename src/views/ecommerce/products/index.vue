@@ -53,6 +53,9 @@
                     <i class="bx bxs-circle me-1" :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'"></i>
                     {{ kebabToTitleCase('В наличии') }}
                   </b-td>
+                  <b-td>{{ product.buyer.user.username }}</b-td>
+                  <b-td>{{ product.buyer.phone }}</b-td>
+                  <b-td>{{ product.date }}</b-td>
                   <b-td>
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
                       <i class="bx bx-edit fs-18"></i>
@@ -110,6 +113,8 @@ const json_data = computed(() => {
       color: elem.item.color,
       category: categorySet(elem.item.category),
       price: elem.item.price,
+      username: elem.buyer.user.username,
+      phone: elem.buyer.phone,
       date: elem.date
     })
   })

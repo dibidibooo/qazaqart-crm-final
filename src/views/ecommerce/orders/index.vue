@@ -22,7 +22,7 @@
               </div>
             </div>
           </b-card-body>
-          <download-excel name="qazaqart" :data="productList" style="cursor: pointer;">
+          <download-excel name="qazaqart" :data="excelList" style="cursor: pointer;">
             Скачать excel
           </download-excel>
           <b-table-simple responsive class="text-nowrap table-centered mb-0">
@@ -97,12 +97,12 @@ const perPageItem = ref(5)
 const currentPage = ref(1)
 
 const productList = ref<any[]>([])
+const excelList = ref<any[]>([])
 const authorList = ref<any[]>([])
 
 const axios: any = inject('axios')
 
 async function getProductList () {
-  console.dir(axios)
   await axios.get('https://dbqazaqart.kz/api/product/get/')
     .then((response: { data: any }) => {
       response.data.forEach((elem: any) => {
@@ -110,6 +110,7 @@ async function getProductList () {
         elem.desc.size = JSON.parse(elem.desc.size)
       })
       productList.value = response.data
+      parseList()
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
@@ -124,6 +125,20 @@ async function deleteProductData (id: Number) {
     .catch((error: { data: any }) => {
       console.log(error)
     })
+}
+
+function parseList () {
+  productList.value.forEach(elem => {
+    excelList.value.push({
+      seller: elem.art.seller.user.username,
+      art: elem.art.name,
+      date: elem.data,
+      price: elem.price,
+      desc: `Адрес: ${elem.desc.address}, количество: ${elem.desc.count}, размер: ${elem.desc.size[0].merchSize}, цвет: ${elem.desc.color}, категория: ${elem.desc.category[0]}`,
+      buyer: elem.buyer.user.username,
+      phone: elem.buyer.phone
+    })
+  })
 }
 
 onMounted(() => {
