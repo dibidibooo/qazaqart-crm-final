@@ -89,8 +89,8 @@ import type { User } from '@/types/auth'
 import router from '@/router'
 
 const credentials = reactive({
-  username: 'user',
-  password: 'password'
+  // username: 'user',
+  // password: 'password'
 })
 
 const vuelidateRules = computed(() => ({

@@ -144,6 +144,15 @@ const ecommerceRoutes = [
         component: () => import('@/views/ecommerce/products/index.vue')
       },
       {
+        path: '/shop-order',
+        name: 'ecommerce.shop-order',
+        meta: {
+          title: setTitle('Shop Order'),
+          authRequired: true
+        },
+        component: () => import('@/views/ecommerce/products/shoporder.vue')
+      },
+      {
         path: '/products/:id',
         name: 'ecommerce.products.details',
         params: { id: '1001' },
@@ -307,15 +316,6 @@ const appRoutes = [
 ]
 
 const pagesRoutes = [
-  {
-    path: '/pages/welcome',
-    name: 'pages.welcome',
-    meta: {
-      title: setTitle('Welcome'),
-      authRequired: true
-    },
-    component: () => import('@/views/pages/welcome.vue')
-  },
   {
     path: '/pages/faqs',
     name: 'pages.faqs',

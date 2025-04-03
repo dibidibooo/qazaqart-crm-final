@@ -14,5 +14,6 @@ export type productType = {
     color: string
     category: string
     price: string
+    inventory: 'В наличии' | 'Не в наличии'
   }[]
 }

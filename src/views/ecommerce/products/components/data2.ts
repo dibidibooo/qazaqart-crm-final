@@ -1,5 +1,5 @@
 // <!-- PageQazaqart -->
-import type { productType } from '@/views/ecommerce/products/components/types'
+import type { productType } from '@/views/ecommerce/products/components/types2'
 
 import product11 from '@/assets/images/products/product-1(1).png'
 import product2 from '@/assets/images/products/product-2.png'
@@ -10,7 +10,7 @@ import product6 from '@/assets/images/products/product-6.png'
 import product12 from '@/assets/images/products/product-1(2).png'
 
 export const products: productType = {
-  header: ['Название товара', 'Размер', 'Цвет', 'Категория', 'Цена', 'Покупатель', 'Телефон', 'Email', 'Доп. информация', 'Дата', 'Действие'],
+  header: ['Название товара', 'Размер', 'Цвет', 'Категория', 'Цена', 'Наличие', 'Действие'],
   body: [
     {
       id: 1001,
@@ -22,7 +22,8 @@ export const products: productType = {
       size: 'S',
       color: 'Белый',
       category: 'Футболки',
-      price: '15.000'
+      price: '15.000',
+      inventory: 'В наличии'
     },
     {
       id: 1002,
@@ -34,7 +35,8 @@ export const products: productType = {
       size: 'L',
       color: 'Черный',
       category: 'Футболки',
-      price: '15.000'
+      price: '15.000',
+      inventory: 'В наличии'
     },
     {
       id: 1003,
@@ -46,7 +48,8 @@ export const products: productType = {
       size: 'M',
       color: 'Серый',
       category: 'Худи',
-      price: '20.000'
+      price: '20.000',
+      inventory: 'В наличии'
     },
     {
       id: 1004,
@@ -58,7 +61,8 @@ export const products: productType = {
       size: 'L',
       color: 'Белый',
       category: 'Свитшоты',
-      price: '18.000'
+      price: '18.000',
+      inventory: 'Не в наличии'
     },
     {
       id: 1005,
@@ -70,7 +74,8 @@ export const products: productType = {
       size: 'XL',
       color: 'Серый',
       category: 'Свитшоты',
-      price: '18.000'
+      price: '18.000',
+      inventory: 'В наличии'
     },
     {
       id: 1006,
@@ -82,7 +87,8 @@ export const products: productType = {
       size: 'XXL',
       color: 'Черный',
       category: 'Худи',
-      price: '20.000'
+      price: '20.000',
+      inventory: 'Не в наличии'
     },
     {
       id: 1007,
@@ -94,7 +100,8 @@ export const products: productType = {
       size: 'L',
       color: 'Черный',
       category: 'Футболки',
-      price: '15.000'
+      price: '15.000',
+      inventory: 'В наличии'
     }
   ]
 }

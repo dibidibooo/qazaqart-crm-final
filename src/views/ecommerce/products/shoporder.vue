@@ -1,17 +1,23 @@
-<!-- PageQazaqart -->
 <template>
   <DefaultLayout>
-    <PageBreadcrumb title="Страница магазина" subtitle="Магазин" />
+    <PageBreadcrumb title="Заказы с магазина" subtitle="Магазин" />
     <b-row>
       <b-col>
         <b-card no-body>
           <b-card-body>
             <div class="d-flex flex-wrap justify-content-between gap-3">
               <div>
-                <router-link :to="{ name: 'ecommerce.products.create' }" class="btn btn-primary d-flex align-items-center"> <i class="bx bx-plus me-1"></i>Добавить товар</router-link>
+                <download-excel
+            :data="json_data"
+            type="xls"
+            style="cursor: pointer;" class="btn btn-primary d-flex align-items-center">
+            Скачать excel
+          </download-excel>
+
               </div>
             </div>
           </b-card-body>
+
           <div>
             <b-table-simple responsive class="table-centered text-nowrap mb-0">
               <b-thead class="bg-light bg-opacity-50">
@@ -43,10 +49,11 @@
                   <b-td>{{ product.item.color }}</b-td>
                   <b-td>{{ categorySet(product.item.category) }}</b-td>
                   <b-td>{{ product.item.price }} KZT</b-td>
-                  <b-td :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'">
-                    <i class="bx bxs-circle me-1" :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'"></i>
-                    {{ kebabToTitleCase('В наличии') }}
-                  </b-td>
+                  <b-td>{{ product.buyer.user.username }}</b-td>
+                  <b-td>{{ product.buyer.phone }}</b-td>
+                  <b-td>Email</b-td>
+                  <b-td>Доп. информация</b-td>
+                  <b-td>{{ product.date }}</b-td>
                   <b-td>
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
                       <i class="bx bx-edit fs-18"></i>
@@ -86,12 +93,32 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import { kebabToTitleCase } from '@/helpers/change-casing'
 // import { currency } from '@/helpers/constants'
-import { products } from '@/views/ecommerce/products/components/data2'
+import { products } from '@/views/ecommerce/products/components/data'
 
 const perPageItem = ref(5)
 const currentPage = ref(1)
 
 const shopList = ref<any[]>([])
+
+const json_data = computed(() => {
+  const arr: any[] = []
+  shopList.value.forEach(elem => {
+    arr.push({
+      picture: elem.item.picture,
+      name: elem.item.name,
+      description: elem.item.desc,
+      size: sizeSign(elem.item.size),
+      color: elem.item.color,
+      category: categorySet(elem.item.category),
+      price: elem.item.price,
+      username: elem.buyer.user.username,
+      phone: elem.buyer.phone,
+      date: elem.date
+    })
+  })
+  return arr
+})
+
 const axios: any = inject('axios')
 
 async function getShopItem () {
@@ -132,3 +159,4 @@ onMounted(() => {
   getShopItem()
 })
 </script>
+
