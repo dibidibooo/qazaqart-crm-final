@@ -10,14 +10,11 @@ declare module 'vue' {
     AnchorNavigation: typeof import('./src/components/AnchorNavigation.vue')['default']
     ApexChart: typeof import('./src/components/ApexChart.vue')['default']
     AppMenu: typeof import('./src/components/AppMenu/index.vue')['default']
-    BAccordion: typeof import('bootstrap-vue-next')['BAccordion']
-    BAccordionItem: typeof import('bootstrap-vue-next')['BAccordionItem']
     BAlert: typeof import('bootstrap-vue-next')['BAlert']
     BBadge: typeof import('bootstrap-vue-next')['BBadge']
     BButton: typeof import('bootstrap-vue-next')['BButton']
     BCard: typeof import('bootstrap-vue-next')['BCard']
     BCardBody: typeof import('bootstrap-vue-next')['BCardBody']
-    BCardFooter: typeof import('bootstrap-vue-next')['BCardFooter']
     BCardHeader: typeof import('bootstrap-vue-next')['BCardHeader']
     BCardTitle: typeof import('bootstrap-vue-next')['BCardTitle']
     BCol: typeof import('bootstrap-vue-next')['BCol']
@@ -62,6 +59,5 @@ declare module 'vue' {
   }
   export interface ComponentCustomProperties {
     vBToggle: typeof import('bootstrap-vue-next')['vBToggle']
-    vBTooltip: typeof import('bootstrap-vue-next')['vBTooltip']
   }
 }

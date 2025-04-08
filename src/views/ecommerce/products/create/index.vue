@@ -2,6 +2,7 @@
 <template>
   <DefaultLayout>
     <PageBreadcrumb title="Добавить товар" subtitle="Ecommerce" />
+    {{shopItem}}
     <b-row>
       <b-col>
         <b-card no-body id="horizontalwizard">
@@ -30,10 +31,10 @@
           <b-card-body>
             <div class="tab-content pt-0">
               <div class="tab-pane" :class="productTab === 1 && 'show active'" id="generalDetail">
-                <GeneralDetail />
+                <GeneralDetail @set-main-data="itemShop"/>
               </div>
               <div class="tab-pane" :class="productTab === 2 && 'show active'" id="productImages">
-                <ProductImages />
+                <ProductImages @set-img="itemShopImg"/>
               </div>
               <div class="tab-pane" :class="productTab === 3 && 'show active'" id="finish">
                 <Finish />
@@ -46,7 +47,8 @@
                   <a href="javascript:void(0);" class="btn btn-primary" :class="productTab === 1 && 'disabled'" @click="productTab = productTab - 1"> <i class="bx bx-left-arrow-alt me-2"></i>Назад </a>
                 </div>
                 <div class="next">
-                  <a href="javascript:void(0);" class="btn btn-primary" :class="productTab === 3 && 'disabled'" @click="productTab = productTab + 1"> Вперед<i class="bx bx-right-arrow-alt ms-2"></i> </a>
+                  <a v-if="productTab !== 3" href="javascript:void(0);" class="btn btn-primary" :class="productTab === 3 && 'disabled'" @click="productTab = productTab + 1"> Вперед<i class="bx bx-right-arrow-alt ms-2"></i> </a>
+                  <a v-else href="javascript:void(0);" class="btn btn-primary" @click="setShopItem"> Сохранить<i class="bx bx-right-arrow-alt ms-2"></i> </a>
                 </div>
                 <div class="last d-none">
                   <a href="javascript:void(0);" class="btn btn-primary"> Завершить </a>
@@ -61,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
@@ -70,4 +72,37 @@ import ProductImages from '@/views/ecommerce/products/create/components/ProductI
 import Finish from '@/views/ecommerce/products/create/components/Finish.vue'
 
 const productTab = ref<number>(1)
+const shopItem = ref({
+  name: '',
+  color: '',
+  desc: '',
+  category: '',
+  size: '',
+  price: 0,
+  isHave: false,
+  picture: ''
+})
+
+const itemShop = function (object: any) {
+  shopItem.value = object
+}
+
+const itemShopImg = function (object: any) {
+  shopItem.value.picture = object
+}
+
+const axios: any = inject('axios')
+
+async function setShopItem () {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  console.log(token.token)
+  await axios.post(`http://127.0.0.1:8000/api/item/create/`)
+    .then((response: { data: any }) => {
+      console.log('ok')
+    })
+    .catch((error: { data: any }) => {
+      console.log(error)
+    })
+}
 </script>

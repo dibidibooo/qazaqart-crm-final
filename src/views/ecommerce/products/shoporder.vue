@@ -51,8 +51,8 @@
                   <b-td>{{ product.item.price }} KZT</b-td>
                   <b-td>{{ product.buyer.user.username }}</b-td>
                   <b-td>{{ product.buyer.phone }}</b-td>
-                  <b-td>Email</b-td>
-                  <b-td>Доп. информация</b-td>
+                  <b-td>{{ product.buyer.user.email }}</b-td>
+                  <b-td>{{ product.desc }}</b-td>
                   <b-td>{{ product.date }}</b-td>
                   <b-td>
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
@@ -104,16 +104,18 @@ const json_data = computed(() => {
   const arr: any[] = []
   shopList.value.forEach(elem => {
     arr.push({
-      picture: elem.item.picture,
-      name: elem.item.name,
-      description: elem.item.desc,
-      size: sizeSign(elem.item.size),
-      color: elem.item.color,
-      category: categorySet(elem.item.category),
-      price: elem.item.price,
-      username: elem.buyer.user.username,
-      phone: elem.buyer.phone,
-      date: elem.date
+      ['Изображение']: elem.item.picture,
+      ['Название']: elem.item.name,
+      ['Описание']: elem.item.desc,
+      ['Размер']: sizeSign(elem.item.size),
+      ['Цвет']: elem.item.color,
+      ['Категория']: categorySet(elem.item.category),
+      ['Цена']: elem.item.price,
+      ['Покупатель']: elem.buyer.user.username,
+      ['Почта']: elem.buyer.user.email,
+      ['Телефон']: elem.buyer.phone,
+      ['Дата']: elem.date,
+      ['Доп.информация']: elem.desc
     })
   })
   return arr
