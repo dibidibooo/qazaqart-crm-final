@@ -130,13 +130,13 @@ async function deleteProductData (id: Number) {
 function parseList () {
   productList.value.forEach(elem => {
     excelList.value.push({
-      seller: elem.art.seller.user.username,
-      art: elem.art.name,
-      date: elem.data,
-      price: elem.price,
-      desc: `Адрес: ${elem.desc.address}, количество: ${elem.desc.count}, размер: ${elem.desc.size[0].merchSize}, цвет: ${elem.desc.color}, категория: ${elem.desc.category[0]}`,
-      buyer: elem.buyer.user.username,
-      phone: elem.buyer.phone
+      ['Продавец']: elem.art.seller.user.username,
+      ['Название']: elem.art.name,
+      ['Дата']: elem.data,
+      ['Цена']: elem.price,
+      ['Описание']: `Адрес: ${elem.desc.address}, количество: ${elem.desc.count}, размер: ${elem.desc.size[0].merchSize}, цвет: ${elem.desc.color}, категория: ${elem.desc.category[0]}`,
+      ['Покупатель']: elem.buyer.user.username,
+      ['Телефон']: elem.buyer.phone
     })
   })
 }
