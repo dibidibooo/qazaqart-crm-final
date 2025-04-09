@@ -47,6 +47,7 @@ const fileImg = ref<File | null>()
 const emit = defineEmits(['set-img'])
 
 const setImg = () => {
+  console.log('file', fileImg.value)
   emit('set-img', fileImg.value)
 }
 

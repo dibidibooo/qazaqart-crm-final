@@ -26,32 +26,32 @@
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0 me-3">
                         <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }">
-                          <img :src="product.item.picture" alt="product-1(1)" class="img-fluid avatar-sm" />
+                          <img :src="product.picture" alt="product-1(1)" class="img-fluid avatar-sm" />
                         </router-link>
                       </div>
                       <div class="flex-grow-1">
                         <h5 class="mt-0 mb-1">
                           <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }" class="text-reset">
-                            {{ product.item.name }}
+                            {{ product.name }}
                           </router-link>
                         </h5>
-                        <span class="fs-13">{{ product.item.desc }}</span>
+                        <span class="fs-13">{{ product.desc }}</span>
                       </div>
                     </div>
                   </b-td>
-                  <b-td>{{ sizeSign(product.item.size) }}</b-td>
-                  <b-td>{{ product.item.color }}</b-td>
-                  <b-td>{{ categorySet(product.item.category) }}</b-td>
-                  <b-td>{{ product.item.price }} KZT</b-td>
-                  <b-td :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'">
-                    <i class="bx bxs-circle me-1" :class="'В наличии' === 'В наличии' ? 'text-success' : 'text-danger'"></i>
-                    {{ kebabToTitleCase('В наличии') }}
+                  <b-td>{{ sizeSign(product.size) }}</b-td>
+                  <b-td>{{ product.color }}</b-td>
+                  <b-td>{{ categorySet(product.category) }}</b-td>
+                  <b-td>{{ product.price }} KZT</b-td>
+                  <b-td :class="product.isHave ? 'text-success' : 'text-danger'">
+                    <i class="bx bxs-circle me-1" :class="product.isHave ? 'text-success' : 'text-danger'"></i>
+                    <p>{{ product.isHave ? 'В наличии' : 'Не в наличии' }}</p>
                   </b-td>
                   <b-td>
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
                       <i class="bx bx-edit fs-18"></i>
                     </b-button>
-                    <b-button type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
+                    <b-button @click="deleteShopItem(product.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
                       <i class="bx bx-trash fs-18"></i>
                     </b-button>
                   </b-td>
@@ -95,9 +95,23 @@ const shopList = ref<any[]>([])
 const axios: any = inject('axios')
 
 async function getShopItem () {
-  await axios.get(`https://dbqazaqart.kz/api/shop/get/`)
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.get(`http://127.0.0.1:8000/api/item/get/`)
     .then((response: { data: any }) => {
       shopList.value = response.data
+    })
+    .catch((error: { data: any }) => {
+      console.log(error)
+    })
+}
+
+async function deleteShopItem (id: Number) {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.delete(`http://127.0.0.1:8000/api/item/delete/${id}/`)
+    .then((response: { data: any }) => {
+      getShopItem()
     })
     .catch((error: { data: any }) => {
       console.log(error)
