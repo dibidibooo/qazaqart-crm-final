@@ -2,7 +2,6 @@
 <template>
   <DefaultLayout>
     <PageBreadcrumb title="Добавить товар" subtitle="Ecommerce" />
-    {{shopItem}}
     <b-row>
       <b-col>
         <b-card no-body id="horizontalwizard">
@@ -96,8 +95,16 @@ const axios: any = inject('axios')
 async function setShopItem () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  console.log(token.token)
-  await axios.post(`http://127.0.0.1:8000/api/item/create/`)
+  const formData:any = new FormData()
+  formData.append('name', shopItem.value.name)
+  formData.append('color', shopItem.value.color)
+  formData.append('desc', shopItem.value.desc)
+  formData.append('category', shopItem.value.category)
+  formData.append('size', shopItem.value.size)
+  formData.append('price', shopItem.value.price)
+  formData.append('isHave', shopItem.value.isHave)
+  formData.append('picture', shopItem.value.picture)
+  await axios.post(`https://dbqazaqart.kz/api/item/create/`, formData)
     .then((response: { data: any }) => {
       console.log('ok')
     })

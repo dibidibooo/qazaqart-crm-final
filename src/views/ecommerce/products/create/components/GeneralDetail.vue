@@ -13,9 +13,9 @@
         <div class="mb-3">
           <b-form-group label="Цвет" label-for="productSummary">
             <b-form-select v-model="shopItem.color" @change="setValue">
-                <b-form-select-option value="Black">Черный</b-form-select-option>
-                <b-form-select-option value="white">Белый</b-form-select-option>
-                <b-form-select-option value="gray">Серый</b-form-select-option>
+                <b-form-select-option value="Черный">Черный</b-form-select-option>
+                <b-form-select-option value="Белый">Белый</b-form-select-option>
+                <b-form-select-option value="Серый">Серый</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </div>
@@ -32,9 +32,9 @@
         <div class="mb-3">
           <b-form-group label="Категория" label-for="productSummary">
             <b-form-select v-model="shopItem.category" @change="setValue">
-                <b-form-select-option value="tshirt">Футболки</b-form-select-option>
-                <b-form-select-option value="hoodie">Худи</b-form-select-option>
-                <b-form-select-option value="sweatshirt">Свитшоты</b-form-select-option>
+                <b-form-select-option value="2">Футболки</b-form-select-option>
+                <b-form-select-option value="0">Худи</b-form-select-option>
+                <b-form-select-option value="1">Свитшоты</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </div>
@@ -43,11 +43,11 @@
         <div class="mb-3">
           <b-form-group label="Размер" label-for="productSummary">
             <b-form-select v-model="shopItem.size" @change="setValue">
-              <b-form-select-option value="S">S</b-form-select-option>
-              <b-form-select-option value="M">M</b-form-select-option>
-              <b-form-select-option value="L">L</b-form-select-option>
-              <b-form-select-option value="XL">XL</b-form-select-option>
-              <b-form-select-option value="XXL">XXL</b-form-select-option>
+              <b-form-select-option value="0">S</b-form-select-option>
+              <b-form-select-option value="1">M</b-form-select-option>
+              <b-form-select-option value="2">L</b-form-select-option>
+              <b-form-select-option value="3">XL</b-form-select-option>
+              <b-form-select-option value="4">XXL</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </div>
@@ -73,7 +73,7 @@ import { ref } from 'vue'
 const shopItem = ref({
   name: '',
   color: '',
-  desc: '',
+  desc: 'jek',
   category: '',
   size: '',
   price: 0,
