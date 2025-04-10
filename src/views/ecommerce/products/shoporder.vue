@@ -124,7 +124,7 @@ const json_data = computed(() => {
 const axios: any = inject('axios')
 
 async function getShopItem () {
-  await axios.get(`http://127.0.0.1:8000/api/shop/get/`)
+  await axios.get(`https://dbqazaqart.kz/api/shop/get/`)
     .then((response: { data: any }) => {
       shopList.value = response.data
     })

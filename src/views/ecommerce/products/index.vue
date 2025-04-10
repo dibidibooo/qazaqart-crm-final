@@ -21,7 +21,7 @@
               </b-thead>
 
               <b-tbody>
-                <b-tr v-for="(product, idx) in shopList" :key="idx">
+                <b-tr v-for="(product, idx) in shopList.results" :key="idx">
                   <b-td>
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0 me-3">
@@ -63,14 +63,14 @@
               <div class="col-sm">
                 <div class="text-muted">
                   Показаны
-                  <span class="fw-semibold">7</span>
+                  <span class="fw-semibold">{{ shopList.results.length }}</span>
                   из
-                  <span class="fw-semibold">15</span>
+                  <span class="fw-semibold">{{ shopList.count }}</span>
                   результатов
                 </div>
               </div>
               <div class="col-sm-auto mt-3 mt-sm-0">
-                <b-pagination class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="products.body.length" />
+                <b-pagination @click="getShopItem" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="shopList.count" />
               </div>
             </div>
           </div>
@@ -88,16 +88,21 @@ import { kebabToTitleCase } from '@/helpers/change-casing'
 // import { currency } from '@/helpers/constants'
 import { products } from '@/views/ecommerce/products/components/data2'
 
-const perPageItem = ref(5)
+const perPageItem = ref(2)
 const currentPage = ref(1)
 
-const shopList = ref<any[]>([])
+const shopList = ref({
+  count: null,
+  next: null,
+  prevoius: null,
+  results: []
+})
 const axios: any = inject('axios')
 
 async function getShopItem () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.get(`http://127.0.0.1:8000/api/item/get/`)
+  await axios.get(`https://dbqazaqart.kz/api/item/get/?page=${currentPage.value}`)
     .then((response: { data: any }) => {
       shopList.value = response.data
     })
@@ -109,7 +114,7 @@ async function getShopItem () {
 async function deleteShopItem (id: Number) {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.delete(`http://127.0.0.1:8000/api/item/delete/${id}/`)
+  await axios.delete(`https://dbqazaqart.kz/api/item/delete/${id}/`)
     .then((response: { data: any }) => {
       getShopItem()
     })

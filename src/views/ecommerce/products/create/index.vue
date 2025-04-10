@@ -104,7 +104,7 @@ async function setShopItem () {
   formData.append('price', shopItem.value.price)
   formData.append('isHave', shopItem.value.isHave)
   formData.append('picture', shopItem.value.picture)
-  await axios.post(`http://127.0.0.1:8000/api/item/create/`, formData)
+  await axios.post(`https://dbqazaqart.kz/api/item/create/`, formData)
     .then((response: { data: any }) => {
       console.log('ok')
     })
