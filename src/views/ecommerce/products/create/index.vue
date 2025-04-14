@@ -58,19 +58,30 @@
         </b-card>
       </b-col>
     </b-row>
+    <ModalComponent
+      v-if="isModal"
+      :type="status"
+      @close-modal="closeModal"/>
+    <PreLoader v-if="preloader"/>
   </DefaultLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 
+import ModalComponent from '@/components/ModalComponent.vue'
+import PreLoader from '@/components/PreLoader.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import GeneralDetail from '@/views/ecommerce/products/create/components/GeneralDetail.vue'
 import ProductImages from '@/views/ecommerce/products/create/components/ProductImages.vue'
 import Finish from '@/views/ecommerce/products/create/components/Finish.vue'
+import router from '@/router'
 
 const productTab = ref<number>(1)
+const isModal = ref<boolean>(false)
+const preloader = ref<boolean>(false)
+const status = ref<string>('')
 const shopItem = ref({
   name: '',
   color: '',
@@ -81,6 +92,14 @@ const shopItem = ref({
   isHave: false,
   picture: ''
 })
+
+function openModal () {
+  isModal.value = true
+}
+
+function closeModal () {
+  isModal.value = false
+}
 
 const itemShop = function (object: any) {
   shopItem.value = object
@@ -93,6 +112,7 @@ const itemShopImg = function (object: any) {
 const axios: any = inject('axios')
 
 async function setShopItem () {
+  preloader.value = true
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
   const formData:any = new FormData()
@@ -106,10 +126,17 @@ async function setShopItem () {
   formData.append('picture', shopItem.value.picture)
   await axios.post(`https://dbqazaqart.kz/api/item/create/`, formData)
     .then((response: { data: any }) => {
-      console.log('ok')
+      preloader.value = false
+      status.value = 'success'
+      openModal()
+      setTimeout(() => {
+        router.push('/products')
+      }, 1500)
     })
     .catch((error: { data: any }) => {
+      status.value = 'failed'
       console.log(error)
+      preloader.value = false
     })
 }
 </script>
