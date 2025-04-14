@@ -21,11 +21,12 @@
         </div>
         </b-col>
     </b-row>
+    {{shopItem}}
     <b-row>
       <b-col lg="12">
         <div class="mb-3">
           <label class="form-label">Описание товара</label>
-          <QuillEditor theme="snow" @input="setValue" :toolbar="toolbar" style="height: 195px;" content-type="html" />
+          <QuillEditor theme="snow" v-model:value="shopItem.desc" @change="setValue" :toolbar="toolbar" style="height: 195px;" content-type="html" />
         </div>
       </b-col>
       <b-col lg="6">
