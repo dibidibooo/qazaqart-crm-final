@@ -51,7 +51,7 @@
                     <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
                       <i class="bx bx-edit fs-18"></i>
                     </b-button>
-                    <b-button @click="deleteShopItem(product.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
+                    <b-button @click="openModal(product.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
                       <i class="bx bx-trash fs-18"></i>
                     </b-button>
                   </b-td>
@@ -77,19 +77,27 @@
         </b-card>
       </b-col>
     </b-row>
+    <ModalComponent
+      v-if="isModal"
+      type="delete"
+      @close-modal="closeModal"
+      @agree-action="deleteShopItem"/>
   </DefaultLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, inject, onMounted, computed } from 'vue'
+import ModalComponent from '@/components/ModalComponent.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import { kebabToTitleCase } from '@/helpers/change-casing'
 // import { currency } from '@/helpers/constants'
 import { products } from '@/views/ecommerce/products/components/data2'
 
-const perPageItem = ref(2)
+const perPageItem = ref(20)
 const currentPage = ref(1)
+const isModal = ref<boolean>(false)
+const deleted = ref<Number>()
 
 const shopList = ref({
   count: null,
@@ -97,6 +105,16 @@ const shopList = ref({
   prevoius: null,
   results: []
 })
+
+function openModal (id: Number) {
+  deleted.value = id
+  isModal.value = true
+}
+
+function closeModal () {
+  isModal.value = false
+}
+
 const axios: any = inject('axios')
 
 async function getShopItem () {
@@ -111,12 +129,13 @@ async function getShopItem () {
     })
 }
 
-async function deleteShopItem (id: Number) {
+async function deleteShopItem () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.delete(`https://dbqazaqart.kz/api/item/delete/${id}/`)
+  await axios.delete(`https://dbqazaqart.kz/api/item/delete/${deleted.value}/`)
     .then((response: { data: any }) => {
       getShopItem()
+      closeModal()
     })
     .catch((error: { data: any }) => {
       console.log(error)

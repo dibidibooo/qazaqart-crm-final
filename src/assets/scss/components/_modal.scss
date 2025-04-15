@@ -51,3 +51,26 @@
     color: $white !important;
   }
 }
+
+.modal {
+  position: fixed;
+  display: flex;
+  width: 300px;
+  inset: 0;
+  height: fit-content;
+  border-radius: 8px;
+  flex-direction: column;
+}
+
+.close {
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+}
+
+.loader {
+  position: fixed;
+  display: flex;
+  z-index: 50;
+  inset: 0;
+}

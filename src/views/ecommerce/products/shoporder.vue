@@ -27,7 +27,7 @@
               </b-thead>
 
               <b-tbody>
-                <b-tr v-for="(product, idx) in shopList" :key="idx">
+                <b-tr v-for="(product, idx) in shopList.results" :key="idx">
                   <b-td>
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0 me-3">
@@ -70,14 +70,14 @@
               <div class="col-sm">
                 <div class="text-muted">
                   Показаны
-                  <span class="fw-semibold">7</span>
+                  <span class="fw-semibold">{{ shopList.results.length }}</span>
                   из
-                  <span class="fw-semibold">15</span>
+                  <span class="fw-semibold">{{ shopList.count }}</span>
                   результатов
                 </div>
               </div>
               <div class="col-sm-auto mt-3 mt-sm-0">
-                <b-pagination class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="products.body.length" />
+                <b-pagination @click="getShopItem" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="shopList.count" />
               </div>
             </div>
           </div>
@@ -95,14 +95,19 @@ import { kebabToTitleCase } from '@/helpers/change-casing'
 // import { currency } from '@/helpers/constants'
 import { products } from '@/views/ecommerce/products/components/data'
 
-const perPageItem = ref(5)
+const perPageItem = ref(20)
 const currentPage = ref(1)
 
-const shopList = ref<any[]>([])
+const shopList = ref({
+  count: null,
+  next: null,
+  prevoius: null,
+  results: []
+})
 
 const json_data = computed(() => {
   const arr: any[] = []
-  shopList.value.forEach(elem => {
+  shopList.value.results.forEach(elem => {
     arr.push({
       ['Изображение']: elem.item.picture,
       ['Название']: elem.item.name,
@@ -124,7 +129,7 @@ const json_data = computed(() => {
 const axios: any = inject('axios')
 
 async function getShopItem () {
-  await axios.get(`https://dbqazaqart.kz/api/shop/get/`)
+  await axios.get(`https://dbqazaqart.kz/api/shop/get/?page=${currentPage.value}`)
     .then((response: { data: any }) => {
       shopList.value = response.data
     })
