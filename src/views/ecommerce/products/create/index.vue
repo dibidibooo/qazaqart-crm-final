@@ -1,7 +1,7 @@
 <!-- PageQazaqart -->
 <template>
   <DefaultLayout>
-    <PageBreadcrumb title="Добавить товар" subtitle="Ecommerce" />
+    <PageBreadcrumb title="Добавить товар" subtitle="Магазин" />
     <b-row>
       <b-col>
         <b-card no-body id="horizontalwizard">

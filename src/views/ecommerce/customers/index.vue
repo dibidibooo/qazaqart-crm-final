@@ -1,6 +1,6 @@
 <template>
   <DefaultLayout>
-    <PageBreadcrumb title="Оплата за мерч" subtitle="Ecommerce" />
+    <PageBreadcrumb title="Оплата за мерч" subtitle="Страницы" />
 
 
     <div class="tab-content pt-0">

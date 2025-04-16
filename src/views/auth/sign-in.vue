@@ -60,11 +60,6 @@
           </b-row>
         </b-card-body>
       </b-card>
-
-      <p class="text-white mb-0 text-center">
-        У Вас нет аккаунта?
-        <router-link :to="{ name: 'auth.sign-up' }" class="text-white fw-bold ms-1">Зарегистрироваться</router-link>
-      </p>
     </b-col>
   </AuthLayout>
 </template>

@@ -4,10 +4,13 @@
       <b-thead>
         <b-tr>
           <b-th>Пользователь</b-th>
+          <b-th>Имя</b-th>
+          <b-th>Фамилия</b-th>
           <b-th>Email</b-th>
           <b-th>Телефон</b-th>
           <b-th>Заказы</b-th>
           <b-th>Выручка</b-th>
+          <b-th>Номер карты</b-th>
           <b-th>Действие</b-th>
         </b-tr>
       </b-thead>
@@ -15,14 +18,16 @@
         <b-tr v-for="(customer, idx) in customerList" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="customer.image" alt="avatar-1" class="img-fluid avatar-xs rounded-circle avatar-border me-1" />
-              <a href="#!">{{ customer.name }}</a>
+              <img :src="customer.image" alt="avatar-1" class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ customer.name }}
             </div>
           </b-td>
+          <b-td>Имя</b-td>
+          <b-td>Фамилия</b-td>
           <b-td>{{ customer.email }}</b-td>
           <b-td>{{ customer.phone }}</b-td>
           <b-td>{{ customer.orders }}</b-td>
           <b-td>{{ customer.revenue }} KZT</b-td>
+          <b-td>0123 4567 8910 2345</b-td>
           <b-td>
             <b-td><a href="#!" class="btn btn-primary btn-sm w-100">Оплатить за мерч</a></b-td>
 

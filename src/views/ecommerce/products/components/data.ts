@@ -10,7 +10,7 @@ import product6 from '@/assets/images/products/product-6.png'
 import product12 from '@/assets/images/products/product-1(2).png'
 
 export const products: productType = {
-  header: ['Название товара', 'Размер', 'Цвет', 'Категория', 'Цена', 'Покупатель', 'Телефон', 'Email', 'Доп. информация', 'Дата', 'Действие'],
+  header: ['Название товара', 'Размер', 'Цвет', 'Категория', 'Цена', 'Покупатель', 'Телефон', 'Email', 'Доп. информация', 'Дата', 'Статус'],
   body: [
     {
       id: 1001,
