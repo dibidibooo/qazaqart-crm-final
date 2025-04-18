@@ -8,13 +8,6 @@
               <Icon icon="iconamoon:menu-burger-horizontal" class="fs-22" @click="toggleLeftSideBar" />
             </button>
           </div>
-
-          <b-form class="app-search d-none d-md-block me-auto">
-            <div class="position-relative">
-              <b-form-input type="search" placeholder="Search..." autocomplete="off" />
-              <Icon icon="iconamoon:search-duotone" class="search-widget-icon" />
-            </div>
-          </b-form>
         </div>
 
         <div class="d-flex align-items-center gap-1">

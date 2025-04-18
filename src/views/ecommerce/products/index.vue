@@ -35,7 +35,7 @@
                             {{ product.name }}
                           </router-link>
                         </h5>
-                        <span class="fs-13">{{ product.desc }}</span>
+                        <span class="fs-13 truncated-text">{{ product.desc }}</span>
                       </div>
                     </div>
                   </b-td>
@@ -170,3 +170,13 @@ onMounted(() => {
   getShopItem()
 })
 </script>
+
+<style scoped>
+.truncated-text {
+  display: inline-block;
+  max-width: 100px; /* или другое подходящее значение */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
