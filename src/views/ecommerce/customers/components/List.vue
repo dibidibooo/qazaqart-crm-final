@@ -1,5 +1,8 @@
 <template>
   <b-card no-body class="overflow-hidden">
+    <download-excel name="qazaqart" style="cursor: pointer;">
+      Скачать excel
+    </download-excel>
     <b-table-simple responsive class="text-nowrap table-centered mb-0">
       <b-thead>
         <b-tr>
@@ -10,15 +13,16 @@
           <b-th>Телефон</b-th>
           <b-th>Заказы</b-th>
           <b-th>Выручка</b-th>
-          <b-th>Номер карты</b-th>
-          <b-th>Действие</b-th>
+          <b-th>ИИН</b-th>
+          <b-th>IBAN счет</b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
         <b-tr v-for="(customer, idx) in customerList" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="customer.image" alt="avatar-1" class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ customer.name }}
+              <img :src="customer.image" alt="avatar-1"
+                class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ customer.name }}
             </div>
           </b-td>
           <b-td>Имя</b-td>
@@ -27,12 +31,8 @@
           <b-td>{{ customer.phone }}</b-td>
           <b-td>{{ customer.orders }}</b-td>
           <b-td>{{ customer.revenue }} KZT</b-td>
-          <b-td>0123 4567 8910 2345</b-td>
-          <b-td>
-            <b-td><a href="#!" class="btn btn-primary btn-sm w-100">Оплатить за мерч</a></b-td>
-
-
-          </b-td>
+          <b-td>980905301536</b-td>
+          <b-td>KZ15351874335105</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -47,7 +47,8 @@
         </div>
       </div>
       <div class="col-sm-auto mt-3 mt-sm-0">
-        <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem" :total-rows="customerList.length" />
+        <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
+          :total-rows="customerList.length" />
       </div>
     </div>
   </b-card>
