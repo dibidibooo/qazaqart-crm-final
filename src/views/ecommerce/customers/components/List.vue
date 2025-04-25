@@ -1,6 +1,6 @@
 <template>
   <b-card no-body class="overflow-hidden">
-    <download-excel name="qazaqart" style="cursor: pointer;">
+    <download-excel :data="json_data" type="xls" name="qazaqart" style="cursor: pointer;" class="btn btn-primary d-flex align-items-center">
       Скачать excel
     </download-excel>
     <b-table-simple responsive class="text-nowrap table-centered mb-0">
@@ -18,21 +18,21 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="(customer, idx) in customerList" :key="idx">
+        <b-tr v-for="(author, idx) in authorList" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="customer.image" alt="avatar-1"
-                class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ customer.name }}
+              <img :src="`https://dbqazaqart.kz/${author.photo}`" alt="avatar-1"
+                class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ author.user.username }}
             </div>
           </b-td>
-          <b-td>Имя</b-td>
-          <b-td>Фамилия</b-td>
-          <b-td>{{ customer.email }}</b-td>
-          <b-td>{{ customer.phone }}</b-td>
-          <b-td>{{ customer.orders }}</b-td>
-          <b-td>{{ customer.revenue }} KZT</b-td>
-          <b-td>980905301536</b-td>
-          <b-td>KZ15351874335105</b-td>
+          <b-td>{{author.user.first_name}}</b-td>
+          <b-td>{{author.user.last_name}}</b-td>
+          <b-td>{{author.user.email}}</b-td>
+          <b-td>{{ author.phone }}</b-td>
+          <b-td>{{ author.order_count }}</b-td>
+          <b-td>{{ author.revenue }} KZT</b-td>
+          <b-td>{{author.iin ? author.iin : 'не заполнено'}}</b-td>
+          <b-td>{{author.iban ? author.iban : 'не заполнено'}}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -54,9 +54,33 @@
   </b-card>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { customerList } from '@/views/ecommerce/customers/components/data'
 
 const perPageItem = ref(5)
 const currentPage = ref(1)
+
+const props = defineProps({
+  authorList: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const json_data = computed(() => {
+  const arr: any[] = []
+  props.authorList.forEach(elem => {
+    arr.push({
+      ['Пользователь']: elem.user.username,
+      ['ФИО']: `${elem.user.first_name} ${elem.user.last_name}`,
+      ['Email']: elem.user.email,
+      ['Телефон']: elem.phone,
+      ['Заказы']: elem.order_count,
+      ['Выручка']: elem.revenue,
+      ['ИИН']: elem.iin,
+      ['IBAN']: elem.iban
+    })
+  })
+  return arr
+})
 </script>
