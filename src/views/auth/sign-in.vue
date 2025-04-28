@@ -16,7 +16,7 @@
                 </div>
 
                 <h2 class="fw-bold text-center fs-18">Войти в систему</h2>
-                <p class="text-muted text-center mt-1 mb-4">Введите свой адрес электронной почты и пароль для доступа к панели администратора.</p>
+                <p class="text-muted text-center mt-1 mb-4">Введите свой username и пароль для доступа к панели администратора.</p>
 
                 <b-row class="justify-content-center">
                   <b-col md="8" cols="12">
@@ -45,9 +45,9 @@
                         <b-form-checkbox>Запомнить меня</b-form-checkbox>
                       </div>
 
-                      <div class="mb-3 d-flex justify-content-center">
+                      <!-- <div class="mb-3 d-flex justify-content-center">
                         <router-link :to="{ name: 'auth.reset-password' }" class="text-muted text-unline-dashed"> Сбросить пароль </router-link>
-                      </div>
+                      </div> -->
 
                       <div class="mb-1 text-center d-grid">
                         <b-button variant="primary" type="submit"> Войти </b-button>

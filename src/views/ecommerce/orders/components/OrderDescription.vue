@@ -2,30 +2,24 @@
   <b-col xl="5">
     <b-card no-body>
       <b-card-body>
-        <b-card-title tag="h5" class="mb-3"> Products From Order #{{ id }} </b-card-title>
+        <b-card-title tag="h5" class="mb-3"> Информация о покупателе заказа #{{ id }} </b-card-title>
         <b-table-simple responsive class="text-nowrap table-centered mb-0">
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Price</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
-              <td>Grand Total :</td>
-              <td>{{ currency }}2201.59</td>
+              <td>Имя Фамилия :</td>
+              <td> Добавить Имя Фамилия</td>
             </tr>
             <tr>
-              <td>Shipping Charge :</td>
-              <td>FREE</td>
+              <td>Email :</td>
+              <td>Добавить Email</td>
             </tr>
             <tr>
-              <td>Estimated tax :</td>
-              <td>{{ currency }}15</td>
+              <td>Телефон :</td>
+              <td>Добавить Телефон</td>
             </tr>
             <tr>
-              <td class="fw-semibold">Total :</td>
-              <td class="fw-semibold">{{ currency }}2266.59</td>
+              <td class="fw-semibold">Адрес :</td>
+              <td class="fw-semibold">Добавить Адрес</td>
             </tr>
           </tbody>
         </b-table-simple>

@@ -1,8 +1,15 @@
 <template>
   <b-card no-body class="overflow-hidden">
-    <download-excel :data="json_data" type="xls" name="qazaqart" style="cursor: pointer;" class="btn btn-primary d-flex align-items-center">
-      Скачать excel
-    </download-excel>
+    <b-card-body>
+      <div class="d-flex flex-wrap justify-content-between gap-3">
+        <div>
+          <download-excel :data="json_data" type="xls" name="qazaqart" style="cursor: pointer;"
+            class="btn btn-primary d-flex align-items-center">
+            Скачать excel
+          </download-excel>
+        </div>
+      </div>
+    </b-card-body>
     <b-table-simple responsive class="text-nowrap table-centered mb-0">
       <b-thead>
         <b-tr>
@@ -21,18 +28,18 @@
         <b-tr v-for="(author, idx) in props.authorList.results" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="author.photo" alt="avatar-1"
-                class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ author.user.username }}
+              <img :src="author.photo" alt="avatar-1" class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{
+                author.user.username }}
             </div>
           </b-td>
-          <b-td>{{author.user.first_name}}</b-td>
-          <b-td>{{author.user.last_name}}</b-td>
-          <b-td>{{author.user.email}}</b-td>
+          <b-td>{{ author.user.first_name }}</b-td>
+          <b-td>{{ author.user.last_name }}</b-td>
+          <b-td>{{ author.user.email }}</b-td>
           <b-td>{{ author.phone }}</b-td>
           <b-td>{{ author.order_count }}</b-td>
           <b-td>{{ author.revenue }} KZT</b-td>
-          <b-td>{{author.iin ? author.iin : 'не заполнено'}}</b-td>
-          <b-td>{{author.iban ? author.iban : 'не заполнено'}}</b-td>
+          <b-td>{{ author.iin ? author.iin : 'не заполнено' }}</b-td>
+          <b-td>{{ author.iban ? author.iban : 'не заполнено' }}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -47,7 +54,8 @@
         </div>
       </div>
       <div class="col-sm-auto mt-3 mt-sm-0">
-        <b-pagination @click="changePage" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="props.authorList.count" />
+        <b-pagination @click="changePage" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem"
+          :total-rows="props.authorList.count" />
       </div>
     </div>
   </b-card>
@@ -62,13 +70,13 @@ const currentPage = ref(1)
 const props = defineProps({
   authorList: {
     type: Object,
-    default: () => {}
+    default: () => { }
   }
 })
 
 const emits = defineEmits(['change-page'])
 
-function changePage () {
+function changePage() {
   emits('change-page', currentPage.value)
 }
 

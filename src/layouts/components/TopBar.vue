@@ -19,7 +19,7 @@
           </div>
 
           <!-- Notification -->
-          <DropDown custom-class="topbar-item">
+          <!-- <DropDown custom-class="topbar-item">
             <button type="button" class="topbar-button position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <Icon icon="iconamoon:notification-duotone" class="fs-24 align-middle" />
               <span class="position-absolute topbar-badge fs-10 translate-middle badge bg-danger rounded-pill">3<span class="visually-hidden">unread messages</span></span>
@@ -82,7 +82,7 @@
                 ></a>
               </div>
             </div>
-          </DropDown>
+          </DropDown> -->
 
           <!-- Theme Setting -->
           <div class="topbar-item">
