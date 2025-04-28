@@ -18,10 +18,10 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="(author, idx) in authorList" :key="idx">
+        <b-tr v-for="(author, idx) in props.authorList.results" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="`https://dbqazaqart.kz/${author.photo}`" alt="avatar-1"
+              <img :src="author.photo" alt="avatar-1"
                 class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ author.user.username }}
             </div>
           </b-td>
@@ -40,36 +40,41 @@
       <div class="col-sm">
         <div class="text-muted">
           Показано
-          <span class="fw-semibold">10</span>
+          <span class="fw-semibold">{{ props.authorList.results.length }}</span>
           из
-          <span class="fw-semibold">285</span>
+          <span class="fw-semibold">{{ props.authorList.count }}</span>
           Результатов
         </div>
       </div>
       <div class="col-sm-auto mt-3 mt-sm-0">
-        <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
-          :total-rows="customerList.length" />
+        <b-pagination @click="changePage" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem" :total-rows="props.authorList.count" />
       </div>
     </div>
   </b-card>
 </template>
+
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { customerList } from '@/views/ecommerce/customers/components/data'
 
-const perPageItem = ref(5)
+const perPageItem = ref(20)
 const currentPage = ref(1)
 
 const props = defineProps({
   authorList: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => {}
   }
 })
 
+const emits = defineEmits(['change-page'])
+
+function changePage () {
+  emits('change-page', currentPage.value)
+}
+
 const json_data = computed(() => {
   const arr: any[] = []
-  props.authorList.forEach(elem => {
+  props.authorList.results.forEach(elem => {
     arr.push({
       ['Пользователь']: elem.user.username,
       ['ФИО']: `${elem.user.first_name} ${elem.user.last_name}`,

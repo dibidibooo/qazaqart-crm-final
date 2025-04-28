@@ -5,7 +5,9 @@
 
     <div class="tab-content pt-0">
       <div class="tab-pane" id="team-list" :class="customersTab && 'show active'">
-        <List :authorList="authorList"/>
+        <List
+          :authorList="authorList"
+          @change-page="changePage"/>
       </div>
 
       <div class="tab-pane" id="team-grid" :class="!customersTab && 'show active'">
@@ -25,16 +27,27 @@ import { customerList } from '@/views/ecommerce/customers/components/data'
 
 const axios: any = inject('axios')
 
-const authorList = ref<any[]>([])
+const authorList = ref({
+  count: null,
+  next: null,
+  prevoius: null,
+  results: []
+})
 const customersTab = ref(true)
 const perPageItem = ref(5)
 const currentPage = ref(1)
 
+function changePage (page: number) {
+  currentPage.value = page
+  getSeller()
+}
+
 async function getSeller () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.get('https://dbqazaqart.kz/api/get-sellers/')
+  await axios.get(`https://dbqazaqart.kz/api/get-sellers-pag/?page=${currentPage.value}`)
     .then((response: { data: any }) => {
+      console.log(response.data)
       authorList.value = response.data
     })
     .catch((error: { data: any }) => {
