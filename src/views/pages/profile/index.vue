@@ -1,27 +1,44 @@
 <template>
   <DefaultLayout>
-    <PageBreadcrumb title="Profile" subtitle="Pages" />
+    <PageBreadcrumb title="Профиль" subtitle="Основное" />
     <b-row>
       <b-col xxl="4">
         <b-row>
           <b-col cols="12">
-            <ProfileInfo />
-            <Skills />
+            <ProfileInfo :profile="profile"/>
           </b-col>
         </b-row>
-        <Activities />
       </b-col>
 
-      <Messages />
+      <Messages :profile="profile"/>
     </b-row>
   </DefaultLayout>
 </template>
 
 <script setup lang="ts">
+import { inject, onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
-import Skills from '@/views/pages/profile/components/Skills.vue'
 import Messages from '@/views/pages/profile/components/Messages.vue'
-import Activities from '@/views/pages/profile/components/Activities.vue'
 import ProfileInfo from '@/views/pages/profile/components/ProfileInfo.vue'
+
+const axios: any = inject('axios')
+
+const profile = ref({ })
+
+async function getProfile () {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.get('https://dbqazaqart.kz/api/get/profile/')
+    .then((response: { data: any }) => {
+      profile.value = response.data[0]
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+onMounted(() => {
+  getProfile()
+})
 </script>

@@ -38,14 +38,14 @@ export const notifications: NotificationType[] = [
 export const profileMenuItems: MenuItemType[] = [
   {
     key: 'profile',
-    label: 'Profile',
+    label: 'Профиль',
     icon: 'bx-user-circle',
     route: { name: 'pages.profile' }
-  },
-  {
-    key: 'lock-screen',
-    label: 'Lock Screen',
-    icon: 'bx-lock',
-    route: { name: 'auth.lock-screen' }
   }
+  // {
+  //   key: 'lock-screen',
+  //   label: 'Lock Screen',
+  //   icon: 'bx-lock',
+  //   route: { name: 'auth.lock-screen' }
+  // }
 ]

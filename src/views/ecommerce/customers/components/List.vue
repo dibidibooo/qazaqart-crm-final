@@ -1,8 +1,15 @@
 <template>
   <b-card no-body class="overflow-hidden">
-    <download-excel :data="json_data" type="xls" name="qazaqart" style="cursor: pointer;" class="btn btn-primary d-flex align-items-center">
-      Скачать excel
-    </download-excel>
+    <b-card-body>
+      <div class="d-flex flex-wrap justify-content-between gap-3">
+        <div>
+          <download-excel :data="json_data" type="xls" name="qazaqart" style="cursor: pointer;"
+            class="btn btn-primary d-flex align-items-center">
+            Скачать excel
+          </download-excel>
+        </div>
+      </div>
+    </b-card-body>
     <b-table-simple responsive class="text-nowrap table-centered mb-0">
       <b-thead>
         <b-tr>
@@ -18,21 +25,21 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="(author, idx) in authorList" :key="idx">
+        <b-tr v-for="(author, idx) in props.authorList.results" :key="idx">
           <b-td>
             <div class="d-flex align-items-center gap-1">
-              <img :src="`https://dbqazaqart.kz/${author.photo}`" alt="avatar-1"
-                class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{ author.user.username }}
+              <img :src="author.photo" alt="avatar-1" class="img-fluid avatar-xs rounded-circle avatar-border me-1" />{{
+                author.user.username }}
             </div>
           </b-td>
-          <b-td>{{author.user.first_name}}</b-td>
-          <b-td>{{author.user.last_name}}</b-td>
-          <b-td>{{author.user.email}}</b-td>
+          <b-td>{{ author.user.first_name }}</b-td>
+          <b-td>{{ author.user.last_name }}</b-td>
+          <b-td>{{ author.user.email }}</b-td>
           <b-td>{{ author.phone }}</b-td>
           <b-td>{{ author.order_count }}</b-td>
           <b-td>{{ author.revenue }} KZT</b-td>
-          <b-td>{{author.iin ? author.iin : 'не заполнено'}}</b-td>
-          <b-td>{{author.iban ? author.iban : 'не заполнено'}}</b-td>
+          <b-td>{{ author.iin ? author.iin : 'не заполнено' }}</b-td>
+          <b-td>{{ author.iban ? author.iban : 'не заполнено' }}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -40,35 +47,42 @@
       <div class="col-sm">
         <div class="text-muted">
           Показано
-          <span class="fw-semibold">10</span>
+          <span class="fw-semibold">{{ props.authorList.results.length }}</span>
           из
-          <span class="fw-semibold">285</span>
+          <span class="fw-semibold">{{ props.authorList.count }}</span>
           Результатов
         </div>
       </div>
       <div class="col-sm-auto mt-3 mt-sm-0">
-        <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
-          :total-rows="authorList.length" />
+        <b-pagination @click="changePage" class="m-0" pills size="md" v-model="currentPage" :per-page="perPageItem"
+          :total-rows="props.authorList.count" />
       </div>
     </div>
   </b-card>
 </template>
+
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const perPageItem = ref(5)
+const perPageItem = ref(20)
 const currentPage = ref(1)
 
 const props = defineProps({
   authorList: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => { }
   }
 })
 
+const emits = defineEmits(['change-page'])
+
+function changePage() {
+  emits('change-page', currentPage.value)
+}
+
 const json_data = computed(() => {
   const arr: any[] = []
-  props.authorList.forEach(elem => {
+  props.authorList.results.forEach(elem => {
     arr.push({
       ['Пользователь']: elem.user.username,
       ['ФИО']: `${elem.user.first_name} ${elem.user.last_name}`,

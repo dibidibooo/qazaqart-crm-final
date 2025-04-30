@@ -16,7 +16,7 @@
                 </div>
 
                 <h2 class="fw-bold text-center fs-18">Войти в систему</h2>
-                <p class="text-muted text-center mt-1 mb-4">Введите свой адрес электронной почты и пароль для доступа к панели администратора.</p>
+                <p class="text-muted text-center mt-1 mb-4">Введите свой username и пароль для доступа к панели администратора.</p>
 
                 <b-row class="justify-content-center">
                   <b-col md="8" cols="12">
@@ -45,9 +45,9 @@
                         <b-form-checkbox>Запомнить меня</b-form-checkbox>
                       </div>
 
-                      <div class="mb-3 d-flex justify-content-center">
+                      <!-- <div class="mb-3 d-flex justify-content-center">
                         <router-link :to="{ name: 'auth.reset-password' }" class="text-muted text-unline-dashed"> Сбросить пароль </router-link>
-                      </div>
+                      </div> -->
 
                       <div class="mb-1 text-center d-grid">
                         <b-button variant="primary" type="submit"> Войти </b-button>
@@ -83,6 +83,9 @@ import type { AxiosResponse } from 'axios'
 import type { User } from '@/types/auth'
 import router from '@/router'
 
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+
 const credentials = reactive({
   // username: 'user',
   // password: 'password'
@@ -107,7 +110,7 @@ const handleSignIn = async () => {
 
   if (result) {
     try {
-      const res: AxiosResponse<User> = await HttpClient.post('http://127.0.0.1:8000/api-auth/token/', credentials)
+      const res: AxiosResponse<User> = await HttpClient.post('https://dbqazaqart.kz/api-auth/token/', credentials)
 
       if (res.data.access) {
         useAuth.saveSession({
@@ -119,6 +122,9 @@ const handleSignIn = async () => {
     } catch (e: any) {
       if (e.response?.data?.error) {
         if (error.value.length == 0) error.value = e.response?.data?.error
+      }
+      if (e.response?.data?.detail) {
+        toast.error('Проверьте логин и пароль, данные введены неверно!')
       }
     }
   }
