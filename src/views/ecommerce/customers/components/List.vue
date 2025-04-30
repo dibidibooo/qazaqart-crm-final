@@ -48,14 +48,13 @@
       </div>
       <div class="col-sm-auto mt-3 mt-sm-0">
         <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
-          :total-rows="customerList.length" />
+          :total-rows="authorList.length" />
       </div>
     </div>
   </b-card>
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { customerList } from '@/views/ecommerce/customers/components/data'
 
 const perPageItem = ref(5)
 const currentPage = ref(1)

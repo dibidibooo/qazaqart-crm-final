@@ -107,7 +107,7 @@ const handleSignIn = async () => {
 
   if (result) {
     try {
-      const res: AxiosResponse<User> = await HttpClient.post('https://dbqazaqart.kz/api-auth/token/', credentials)
+      const res: AxiosResponse<User> = await HttpClient.post('http://127.0.0.1:8000/api-auth/token/', credentials)
 
       if (res.data.access) {
         useAuth.saveSession({

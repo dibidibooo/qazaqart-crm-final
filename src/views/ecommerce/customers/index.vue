@@ -33,7 +33,7 @@ const currentPage = ref(1)
 async function getSeller () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.get('https://dbqazaqart.kz/api/get-sellers/')
+  await axios.get('https://dbqazaqart.kz/api/get-sellers-pag/')
     .then((response: { data: any }) => {
       authorList.value = response.data
     })
@@ -42,7 +42,20 @@ async function getSeller () {
     })
 }
 
+async function checkIbanIin () {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.get('http://127.0.0.1:8000/api/check-seller/iban/iin/11/')
+    .then((response: { data: any }) => {
+      console.log(response.data)
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
 onMounted(() => {
   getSeller()
+  checkIbanIin()
 })
 </script>
