@@ -22,7 +22,7 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="(order, idx) in productList" :key="idx">
+              <b-tr v-for="(order, idx) in productPageList.results" :key="idx">
                 <b-td>
                   <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.id } }">
                     {{ order.order }}
@@ -65,15 +65,15 @@
             <div class="col-sm">
               <div class="text-muted">
                 Показаны
-                <span class="fw-semibold">{{ productList.length }}</span>
+                <span class="fw-semibold">{{ productPageList.results.length }}</span>
                 из
-                <span class="fw-semibold">{{ orderList.body.length }}</span>
+                <span class="fw-semibold">{{ productPageList.count }}</span>
                 заказов
               </div>
             </div>
             <div class="col-sm-auto mt-3 mt-sm-0">
               <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
-                :total-rows="orderList.body.length" />
+                :total-rows="productPageList.count" />
             </div>
           </div>
         </b-card>
@@ -93,6 +93,12 @@ const perPageItem = ref(5)
 const currentPage = ref(1)
 
 const productList = ref<any[]>([])
+const productPageList = ref({
+  count: '',
+  next: '',
+  previuos: '',
+  results: []
+})
 const excelList = ref<any[]>([])
 const authorList = ref<any[]>([])
 
@@ -127,13 +133,23 @@ async function getProductList() {
       response.data.forEach((elem: any) => {
         elem.desc = JSON.parse(elem.desc)
         elem.desc.size = JSON.parse(elem.desc.size)
-        // Инициализация статуса, если его нет
-        if (!elem.status) {
-          elem.status = 'new'
-        }
       })
       productList.value = response.data
       parseList()
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+async function getProductPageList() {
+  await axios.get('https://dbqazaqart.kz/api/product/get-page/')
+    .then((response: { data: any }) => {
+      response.data.results.forEach((elem: any) => {
+        elem.desc = JSON.parse(elem.desc)
+        elem.desc.size = JSON.parse(elem.desc.size)
+      })
+      productPageList.value = response.data
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
@@ -170,6 +186,7 @@ function parseList() {
 
 onMounted(() => {
   getProductList()
+  getProductPageList()
 })
 </script>
 
