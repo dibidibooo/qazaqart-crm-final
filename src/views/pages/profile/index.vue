@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import Messages from '@/views/pages/profile/components/Messages.vue'
@@ -27,6 +27,7 @@ const axios: any = inject('axios')
 const profile = ref({ })
 
 async function getProfile () {
+  console.log('okok')
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
   await axios.get('https://dbqazaqart.kz/api/get/profile/')
@@ -38,7 +39,5 @@ async function getProfile () {
     })
 }
 
-onMounted(() => {
-  getProfile()
-})
+getProfile()
 </script>

@@ -48,9 +48,9 @@
                 <b-td>{{ order.buyer.phone }}</b-td>
                 <b-td>{{ order.desc.address }}</b-td>
                 <b-td>
-                  <b-form-select 
-                    v-model="order.status" 
-                    :options="statusOptions" 
+                  <b-form-select
+                    v-model="order.status"
+                    :options="statusOptions"
                     class="status-select"
                     :class="`status-${order.status || 'new'}`"
                     @change="updateStatus(order)"
@@ -151,10 +151,12 @@ function parseList() {
     excelList.value.push({
       ['Продавец']: elem.art.seller.user.username,
       ['Название']: elem.art.name,
+      ['Ссылки']: `Плохое качество: ${elem.art.photo_low_quality}; Хорошее качество:${elem.art.photo}`,
       ['Дата']: elem.data,
       ['Цена']: elem.price,
       ['Описание']: `Адрес: ${elem.desc.address}, количество: ${elem.desc.count}, размер: ${elem.desc.size[0].merchSize}, цвет: ${elem.desc.color}, категория: ${elem.desc.category[0]}`,
-      ['Покупатель']: elem.buyer.user.username,
+      ['Покупатель']: `${elem.buyer.user.first_name} ${elem.buyer.user.last_name}`,
+      ['Почта']: elem.buyer.user.email,
       ['Телефон']: elem.buyer.phone,
       ['Статус']: statusOptions.value.find(s => s.value === (elem.status || 'new'))?.text
     })
