@@ -8,7 +8,7 @@
       <div class="">
         <div class="d-flex align-items-center">
           <div class="d-block">
-            <h4 class="mb-1">Фамилия Имя</h4>
+            <h4 class="mb-1">{{props.profile?.user.first_name}} {{props.profile?.user.last_name}}</h4>
           </div>
         </div>
       </div>
@@ -19,4 +19,10 @@
 <script setup lang="ts">
 import img6 from '@/assets/images/small/img-6.jpg'
 import avatar1 from '@/assets/images/users/avatar-1.jpg'
+
+const props = defineProps({
+  profile: {
+    type: Object
+  }
+})
 </script>

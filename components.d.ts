@@ -15,7 +15,6 @@ declare module 'vue' {
     BButton: typeof import('bootstrap-vue-next')['BButton']
     BCard: typeof import('bootstrap-vue-next')['BCard']
     BCardBody: typeof import('bootstrap-vue-next')['BCardBody']
-    BCardFooter: typeof import('bootstrap-vue-next')['BCardFooter']
     BCardHeader: typeof import('bootstrap-vue-next')['BCardHeader']
     BCardTitle: typeof import('bootstrap-vue-next')['BCardTitle']
     BCol: typeof import('bootstrap-vue-next')['BCol']
@@ -30,8 +29,6 @@ declare module 'vue' {
     BFormRadio: typeof import('bootstrap-vue-next')['BFormRadio']
     BFormRadioGroup: typeof import('bootstrap-vue-next')['BFormRadioGroup']
     BFormSelect: typeof import('bootstrap-vue-next')['BFormSelect']
-    BFormSelectOption: typeof import('bootstrap-vue-next')['BFormSelectOption']
-    BFormTextarea: typeof import('bootstrap-vue-next')['BFormTextarea']
     BOffcanvas: typeof import('bootstrap-vue-next')['BOffcanvas']
     BPagination: typeof import('bootstrap-vue-next')['BPagination']
     BProgress: typeof import('bootstrap-vue-next')['BProgress']
@@ -63,6 +60,5 @@ declare module 'vue' {
   }
   export interface ComponentCustomProperties {
     vBToggle: typeof import('bootstrap-vue-next')['vBToggle']
-    vBTooltip: typeof import('bootstrap-vue-next')['vBTooltip']
   }
 }

@@ -22,9 +22,11 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="(order, idx) in productList" :key="idx">
+              <b-tr v-for="(order, idx) in productPageList.results" :key="idx">
                 <b-td>
-                  {{ order.desc.order }}
+                  <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.id } }">
+                    {{ order.order }}
+                  </router-link>
                 </b-td>
                 <b-td>{{ order.data }}</b-td>
                 <b-td>
@@ -48,9 +50,9 @@
                 <b-td>{{ order.buyer.phone }}</b-td>
                 <b-td>{{ order.desc.address }}</b-td>
                 <b-td>
-                  <b-form-select 
-                    v-model="order.status" 
-                    :options="statusOptions" 
+                  <b-form-select
+                    v-model="order.status"
+                    :options="statusOptions"
                     class="status-select"
                     :class="`status-${order.status || 'new'}`"
                     @change="updateStatus(order)"
@@ -63,15 +65,15 @@
             <div class="col-sm">
               <div class="text-muted">
                 Показаны
-                <span class="fw-semibold">{{ productList.length }}</span>
+                <span class="fw-semibold">{{ productPageList.results.length }}</span>
                 из
-                <span class="fw-semibold">{{ orderList.body.length }}</span>
+                <span class="fw-semibold">{{ productPageList.count }}</span>
                 заказов
               </div>
             </div>
             <div class="col-sm-auto mt-3 mt-sm-0">
               <b-pagination class="m-0" pills v-model="currentPage" :per-page="perPageItem"
-                :total-rows="orderList.body.length" />
+                :total-rows="productPageList.count" />
             </div>
           </div>
         </b-card>
@@ -91,6 +93,12 @@ const perPageItem = ref(5)
 const currentPage = ref(1)
 
 const productList = ref<any[]>([])
+const productPageList = ref({
+  count: '',
+  next: '',
+  previuos: '',
+  results: []
+})
 const excelList = ref<any[]>([])
 const authorList = ref<any[]>([])
 
@@ -106,6 +114,8 @@ const statusOptions = ref([
 const axios: any = inject('axios')
 
 async function updateStatus(order: any) {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
   try {
     await axios.patch(`https://dbqazaqart.kz/api/product/update/${order.id}/`, {
       status: order.status
@@ -123,13 +133,23 @@ async function getProductList() {
       response.data.forEach((elem: any) => {
         elem.desc = JSON.parse(elem.desc)
         elem.desc.size = JSON.parse(elem.desc.size)
-        // Инициализация статуса, если его нет
-        if (!elem.status) {
-          elem.status = 'new'
-        }
       })
       productList.value = response.data
       parseList()
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+async function getProductPageList() {
+  await axios.get('https://dbqazaqart.kz/api/product/get-page/')
+    .then((response: { data: any }) => {
+      response.data.results.forEach((elem: any) => {
+        elem.desc = JSON.parse(elem.desc)
+        elem.desc.size = JSON.parse(elem.desc.size)
+      })
+      productPageList.value = response.data
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
@@ -149,12 +169,15 @@ async function deleteProductData(id: Number) {
 function parseList() {
   productList.value.forEach(elem => {
     excelList.value.push({
+      ['Заказ']: elem.order,
       ['Продавец']: elem.art.seller.user.username,
       ['Название']: elem.art.name,
+      ['Ссылки']: `Плохое качество: ${elem.art.photo_low_quality}; Хорошее качество:${elem.art.photo}`,
       ['Дата']: elem.data,
       ['Цена']: elem.price,
       ['Описание']: `Адрес: ${elem.desc.address}, количество: ${elem.desc.count}, размер: ${elem.desc.size[0].merchSize}, цвет: ${elem.desc.color}, категория: ${elem.desc.category[0]}`,
-      ['Покупатель']: elem.buyer.user.username,
+      ['Покупатель']: `${elem.buyer.user.first_name} ${elem.buyer.user.last_name}`,
+      ['Почта']: elem.buyer.user.email,
       ['Телефон']: elem.buyer.phone,
       ['Статус']: statusOptions.value.find(s => s.value === (elem.status || 'new'))?.text
     })
@@ -163,6 +186,7 @@ function parseList() {
 
 onMounted(() => {
   getProductList()
+  getProductPageList()
 })
 </script>
 

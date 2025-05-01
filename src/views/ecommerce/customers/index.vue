@@ -7,6 +7,7 @@
       <div class="tab-pane" id="team-list" :class="customersTab && 'show active'">
         <List
           :authorList="authorList"
+          :allAuthor="allAuthor"
           @change-page="changePage"/>
       </div>
 
@@ -18,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, inject, reactive } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import List from '@/views/ecommerce/customers/components/List.vue'
@@ -33,6 +34,7 @@ const authorList = ref({
   prevoius: null,
   results: []
 })
+const allAuthor = ref([])
 const customersTab = ref(true)
 const perPageItem = ref(5)
 const currentPage = ref(1)
@@ -47,8 +49,19 @@ async function getSeller () {
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
   await axios.get(`https://dbqazaqart.kz/api/get-sellers-pag/?page=${currentPage.value}`)
     .then((response: { data: any }) => {
-      console.log(response.data)
       authorList.value = response.data
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+async function getAllSeller () {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.get('https://dbqazaqart.kz/api/get-sellers/')
+    .then((response: { data: any }) => {
+      allAuthor.value = response.data
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
@@ -57,5 +70,6 @@ async function getSeller () {
 
 onMounted(() => {
   getSeller()
+  getAllSeller()
 })
 </script>
