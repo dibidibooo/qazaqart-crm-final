@@ -24,7 +24,9 @@
             <b-tbody>
               <b-tr v-for="(order, idx) in productList" :key="idx">
                 <b-td>
-                  {{ order.desc.order }}
+                  <router-link :to="{ name: 'ecommerce.orders.details', params: { id: order.id } }">
+                    {{ order.order }}
+                  </router-link>
                 </b-td>
                 <b-td>{{ order.data }}</b-td>
                 <b-td>
@@ -106,6 +108,8 @@ const statusOptions = ref([
 const axios: any = inject('axios')
 
 async function updateStatus(order: any) {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
   try {
     await axios.patch(`https://dbqazaqart.kz/api/product/update/${order.id}/`, {
       status: order.status
@@ -149,6 +153,7 @@ async function deleteProductData(id: Number) {
 function parseList() {
   productList.value.forEach(elem => {
     excelList.value.push({
+      ['Заказ']: elem.order,
       ['Продавец']: elem.art.seller.user.username,
       ['Название']: elem.art.name,
       ['Ссылки']: `Плохое качество: ${elem.art.photo_low_quality}; Хорошее качество:${elem.art.photo}`,

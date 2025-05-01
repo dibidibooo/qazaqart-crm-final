@@ -201,7 +201,6 @@ const ecommerceRoutes = [
       {
         path: '/orders/:id',
         name: 'ecommerce.orders.details',
-        params: { id: '10001' },
         meta: {
           title: setTitle('Orders Details'),
           authRequired: true
