@@ -83,6 +83,9 @@ import type { AxiosResponse } from 'axios'
 import type { User } from '@/types/auth'
 import router from '@/router'
 
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+
 const credentials = reactive({
   // username: 'user',
   // password: 'password'
@@ -119,6 +122,9 @@ const handleSignIn = async () => {
     } catch (e: any) {
       if (e.response?.data?.error) {
         if (error.value.length == 0) error.value = e.response?.data?.error
+      }
+      if (e.response?.data?.detail) {
+        toast.error('Проверьте логин и пароль, данные введены неверно!')
       }
     }
   }

@@ -66,11 +66,16 @@ import { ref, computed } from 'vue'
 
 const perPageItem = ref(20)
 const currentPage = ref(1)
+const allList = ref([])
 
 const props = defineProps({
   authorList: {
     type: Object,
     default: () => { }
+  },
+  allAuthor: {
+    type: Object,
+    default: () => []
   }
 })
 
@@ -82,7 +87,7 @@ function changePage() {
 
 const json_data = computed(() => {
   const arr: any[] = []
-  props.authorList.results.forEach(elem => {
+  props.allAuthor.forEach(elem => {
     arr.push({
       ['Пользователь']: elem.user.username,
       ['ФИО']: `${elem.user.first_name} ${elem.user.last_name}`,

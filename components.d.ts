@@ -18,7 +18,6 @@ declare module 'vue' {
     BButtonGroup: typeof import('bootstrap-vue-next')['BButtonGroup']
     BCard: typeof import('bootstrap-vue-next')['BCard']
     BCardBody: typeof import('bootstrap-vue-next')['BCardBody']
-    BCardFooter: typeof import('bootstrap-vue-next')['BCardFooter']
     BCardHeader: typeof import('bootstrap-vue-next')['BCardHeader']
     BCardTitle: typeof import('bootstrap-vue-next')['BCardTitle']
     BCarousel: typeof import('bootstrap-vue-next')['BCarousel']
@@ -37,14 +36,6 @@ declare module 'vue' {
     BFormRadio: typeof import('bootstrap-vue-next')['BFormRadio']
     BFormRadioGroup: typeof import('bootstrap-vue-next')['BFormRadioGroup']
     BFormSelect: typeof import('bootstrap-vue-next')['BFormSelect']
-    BFormSelectOption: typeof import('bootstrap-vue-next')['BFormSelectOption']
-    BFormTextarea: typeof import('bootstrap-vue-next')['BFormTextarea']
-    BFormValidFeedback: typeof import('bootstrap-vue-next')['BFormValidFeedback']
-    BInputGroup: typeof import('bootstrap-vue-next')['BInputGroup']
-    BInputGroupText: typeof import('bootstrap-vue-next')['BInputGroupText']
-    BListGroup: typeof import('bootstrap-vue-next')['BListGroup']
-    BListGroupItem: typeof import('bootstrap-vue-next')['BListGroupItem']
-    BModal: typeof import('bootstrap-vue-next')['BModal']
     BOffcanvas: typeof import('bootstrap-vue-next')['BOffcanvas']
     BPagination: typeof import('bootstrap-vue-next')['BPagination']
     BPlaceholder: typeof import('bootstrap-vue-next')['BPlaceholder']
@@ -86,6 +77,5 @@ declare module 'vue' {
   export interface ComponentCustomProperties {
     vBPopover: typeof import('bootstrap-vue-next')['vBPopover']
     vBToggle: typeof import('bootstrap-vue-next')['vBToggle']
-    vBTooltip: typeof import('bootstrap-vue-next')['vBTooltip']
   }
 }

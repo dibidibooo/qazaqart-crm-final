@@ -39,10 +39,14 @@ import '@/assets/scss/icons.scss'
 
 import JsonExcel from "vue-json-excel3"
 
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify'
+
 // axios.defaults.baseURL = 'https://dbqazaqart.kz/'
 // axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 
 const app = createApp(App)
+
+app.use(Vue3Toastify, { autoClose: 3000 } as ToastContainerOptions)
 
 app.component("downloadExcel", JsonExcel)
 app.use(createPinia())
