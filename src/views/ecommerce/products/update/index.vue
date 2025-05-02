@@ -97,11 +97,11 @@ const itemShop = function (object: any) {
 
 const axios: any = inject('axios')
 
-async function getShopItem () {
+async function setShopItem () {
   preloader.value = true
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.post('https://dbqazaqart.kz/api/item/get/')
+  await axios.post(`https://dbqazaqart.kz/api/item/update/${}/`)
     .then((response: { data: any }) => {
       console.log(response.data)
       preloader.value = false
@@ -111,8 +111,4 @@ async function getShopItem () {
       preloader.value = false
     })
 }
-
-onMounted(() => {
-  getShopItem()
-})
 </script>
