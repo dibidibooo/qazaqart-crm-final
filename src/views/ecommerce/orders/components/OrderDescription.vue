@@ -2,7 +2,7 @@
   <b-col xl="5">
     <b-card no-body>
       <b-card-body>
-        <b-card-title tag="h5" class="mb-3"> Информация о покупателе заказа #{{ product.id }} </b-card-title>
+        <b-card-title tag="h5" class="mb-3"> Информация о покупателе заказа #{{ product.order }} </b-card-title>
         <b-table-simple responsive class="text-nowrap table-centered mb-0">
           <tbody>
             <tr>

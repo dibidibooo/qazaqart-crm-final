@@ -16,13 +16,16 @@
             <h3 class="mt-0">Ошибка!</h3>
             <h5 class="w-75 mb-2 mt-3 mx-auto text-muted">Что-то пошло не так!</h5>
           </div>
-          <div class="text-center" v-else>
+          <div class="text-center" v-else-if="type === 'delete'">
             <i class="bx bx-trash text-danger h2"></i>
             <h3 class="mt-0">Вы уверены что хотите удалить?</h3>
             <div>
               <button @click="agree">Да</button>
               <button @click="close">Нет</button>
             </div>
+          </div>
+          <div class="text-center">
+            <slot name="body"></slot>
           </div>
         </b-col>
       </b-row>
