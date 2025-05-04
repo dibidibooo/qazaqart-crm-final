@@ -39,15 +39,6 @@ declare module 'vue' {
     BFormSelect: typeof import('bootstrap-vue-next')['BFormSelect']
     BFormSelectOption: typeof import('bootstrap-vue-next')['BFormSelectOption']
     BFormTextarea: typeof import('bootstrap-vue-next')['BFormTextarea']
-<<<<<<< HEAD
-    BFormValidFeedback: typeof import('bootstrap-vue-next')['BFormValidFeedback']
-    BInputGroup: typeof import('bootstrap-vue-next')['BInputGroup']
-    BInputGroupText: typeof import('bootstrap-vue-next')['BInputGroupText']
-    BListGroup: typeof import('bootstrap-vue-next')['BListGroup']
-    BListGroupItem: typeof import('bootstrap-vue-next')['BListGroupItem']
-    BModal: typeof import('bootstrap-vue-next')['BModal']
-=======
->>>>>>> 0d56b72492431a5821a99692dca797d89ff802e4
     BOffcanvas: typeof import('bootstrap-vue-next')['BOffcanvas']
     BPagination: typeof import('bootstrap-vue-next')['BPagination']
     BPlaceholder: typeof import('bootstrap-vue-next')['BPlaceholder']
