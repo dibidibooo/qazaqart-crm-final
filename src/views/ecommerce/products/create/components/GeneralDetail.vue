@@ -91,17 +91,21 @@
   </b-form>
 </template>
 
+
+'
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const props = defineProps(['edited'])
+
 const shopItem = ref({
-  name: '',
-  color: '',
-  desc: '',
-  category: '',
-  size: '',
-  price: 0,
-  isHave: false
+  name: props.edited?.name || '',
+  color: props.edited?.color || '',
+  desc: props.edited?.desc || '',
+  category: props.edited?.category || '',
+  size: props.edited?.size || '',
+  price: props.edited?.price || 0,
+  isHave: props.edited?.isHave || false
 })
 
 const inlineStackedOptions = [

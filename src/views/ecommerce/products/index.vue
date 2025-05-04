@@ -48,7 +48,7 @@
                     <p>{{ product.isHave ? 'В наличии' : 'Не в наличии' }}</p>
                   </b-td>
                   <b-td>
-                    <b-button type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
+                    <b-button @click="openUpdModal(product.id, idx)" type="button" :variant="null" size="sm" class="btn-soft-secondary me-1">
                       <i class="bx bx-edit fs-18"></i>
                     </b-button>
                     <b-button @click="openModal(product.id)" type="button" :variant="null" size="sm" class="btn-soft-danger ms-1">
@@ -82,6 +82,18 @@
       type="delete"
       @close-modal="closeModal"
       @agree-action="deleteShopItem"/>
+    <modal-component v-if="isUpdate" @close-modal="closeModal">
+      <template v-slot:body>
+        <GeneralDetail
+          style="max-height: 200px; overflow-y: auto;"
+          :edited="shopList.results[selectedInd]"
+          @set-main-data="itemShop"/>
+        <div>
+          <button @click="setShopItem">Да</button>
+          <button @click="closeModal">Нет</button>
+        </div>
+      </template>
+    </modal-component>
   </DefaultLayout>
 </template>
 
@@ -93,11 +105,15 @@ import PageBreadcrumb from '@/components/PageBreadcrumb.vue'
 import { kebabToTitleCase } from '@/helpers/change-casing'
 // import { currency } from '@/helpers/constants'
 import { products } from '@/views/ecommerce/products/components/data2'
+import GeneralDetail from '@/views/ecommerce/products/create/components/GeneralDetail.vue'
 
 const perPageItem = ref(20)
 const currentPage = ref(1)
 const isModal = ref<boolean>(false)
-const deleted = ref<Number>()
+const isUpdate = ref<boolean>(false)
+const selectedId = ref<Number>()
+const selectedInd = ref<Number>()
+const editedObjItem = ref({ })
 
 const shopList = ref({
   count: null,
@@ -106,13 +122,24 @@ const shopList = ref({
   results: []
 })
 
+function itemShop (object: any) {
+  editedObjItem.value = object
+}
+
 function openModal (id: Number) {
-  deleted.value = id
+  selectedId.value = id
   isModal.value = true
+}
+
+function openUpdModal (id: Number, ind: Number) {
+  selectedId.value = id
+  selectedInd.value = ind
+  isUpdate.value = true
 }
 
 function closeModal () {
   isModal.value = false
+  isUpdate.value = false
 }
 
 const axios: any = inject('axios')
@@ -129,10 +156,23 @@ async function getShopItem () {
     })
 }
 
+async function setShopItem () {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.patch(`https://dbqazaqart.kz/api/item/update/${selectedId.value}/`, editedObjItem.value)
+    .then((response: { data: any }) => {
+      getShopItem()
+      closeModal()
+    })
+    .catch((error: { data: any }) => {
+      console.log(error)
+    })
+}
+
 async function deleteShopItem () {
   const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
   axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
-  await axios.delete(`https://dbqazaqart.kz/api/item/delete/${deleted.value}/`)
+  await axios.delete(`https://dbqazaqart.kz/api/item/delete/${selectedId.value}/`)
     .then((response: { data: any }) => {
       getShopItem()
       closeModal()
