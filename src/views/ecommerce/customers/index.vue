@@ -50,6 +50,19 @@ async function getSeller () {
   await axios.get(`https://dbqazaqart.kz/api/get-sellers-pag/?page=${currentPage.value}`)
     .then((response: { data: any }) => {
       authorList.value = response.data
+      authorList.value.results.forEach(item => getRevenue(item))
+    })
+    .catch((error: { data: any }) => {
+      console.log('<>', error)
+    })
+}
+
+async function getRevenue (obj: any) {
+  const token = JSON.parse(sessionStorage.getItem('QAZAQART_VUE_USER') || '{}')
+  axios.defaults.headers.common.Authorization = `Bearer  ${token?.token}`
+  await axios.get(`https://dbqazaqart.kz/api/product/revenue/${obj.id}/`)
+    .then((response: { data: any }) => {
+      obj.revenue = response.data.revenue
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
@@ -62,6 +75,7 @@ async function getAllSeller () {
   await axios.get('https://dbqazaqart.kz/api/get-sellers/')
     .then((response: { data: any }) => {
       allAuthor.value = response.data
+      allAuthor.value.forEach(item => getRevenue(item))
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)

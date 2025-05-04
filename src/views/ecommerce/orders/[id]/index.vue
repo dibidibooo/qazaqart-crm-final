@@ -38,7 +38,7 @@ async function getProduct() {
   await axios.get(`https://dbqazaqart.kz/api/product/get/${route.params.id}`)
     .then((response: { data: any }) => {
       product.value = response.data[0]
-      parseDesc(product.value)
+      parseDesc(response.data[0])
     })
     .catch((error: { data: any }) => {
       console.log('<>', error)
