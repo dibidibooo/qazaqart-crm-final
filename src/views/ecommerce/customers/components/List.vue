@@ -36,7 +36,7 @@
           <b-td>{{ author.user.last_name }}</b-td>
           <b-td>{{ author.user.email }}</b-td>
           <b-td>{{ author.phone }}</b-td>
-          <b-td>{{ author.order_count }}</b-td>
+          <b-td>{{ author.order_count ? author.order_count : 0 }}</b-td>
           <b-td>{{ author.revenue }} KZT</b-td>
           <b-td>{{ author.iin ? author.iin : 'не заполнено' }}</b-td>
           <b-td>{{ author.iban ? author.iban : 'не заполнено' }}</b-td>
@@ -93,7 +93,7 @@ const json_data = computed(() => {
       ['ФИО']: `${elem.user.first_name} ${elem.user.last_name}`,
       ['Email']: elem.user.email,
       ['Телефон']: elem.phone,
-      ['Заказы']: elem.order_count,
+      ['Заказы']: elem.order_count ? elem.order_count : 0,
       ['Выручка']: elem.revenue,
       ['ИИН']: elem.iin,
       ['IBAN']: elem.iban
