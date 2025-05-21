@@ -25,15 +25,15 @@
                   <b-td>
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0 me-3">
-                        <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }">
-                          <img :src="product.picture" alt="product-1(1)" class="img-fluid avatar-sm" />
-                        </router-link>
+                        <!-- <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }"> -->
+                        <img :src="product.picture" alt="product-1(1)" class="img-fluid avatar-sm" />
+                        <!-- </router-link> -->
                       </div>
                       <div class="flex-grow-1">
                         <h5 class="mt-0 mb-1">
-                          <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }" class="text-reset">
-                            {{ product.name }}
-                          </router-link>
+                          <!-- <router-link :to="{ name: 'ecommerce.products.details', params: { id: product.id } }" class="text-reset"> -->
+                          {{ product.name }}
+                          <!-- </router-link> -->
                         </h5>
                         <span class="fs-13 truncated-text">{{ product.desc }}</span>
                       </div>
@@ -82,7 +82,7 @@
       type="delete"
       @close-modal="closeModal"
       @agree-action="deleteShopItem"/>
-    <modal-component v-if="isUpdate" @close-modal="closeModal">
+    <modal-component v-if="isUpdate" type="update" @close-modal="closeModal">
       <template v-slot:body>
         <GeneralDetail
           style="max-height: 200px; overflow-y: auto;"

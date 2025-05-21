@@ -1,7 +1,7 @@
 <template>
   <div class="modal-backdrop">
     <dialog class="modal">
-      <button @click="redirectToHome" class="close-button">
+      <button v-if="type !== 'update'" @click="redirectToHome" class="close-button">
         <i class="bx bx-x"></i>
       </button>
       <b-row class="">
